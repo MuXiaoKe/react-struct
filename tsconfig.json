@@ -14,13 +14,9 @@
             "@src/*": ["*"],
             "@assets/*": ["assets/*"],
             "@components/*": ["components/*"],
-            "@constants/*": ["constants/*"],
             "@router/*": ["router/*"],
-            "@services/*": ["services/*"],
             "@store/*": ["store/*"],
             "@utils/*": ["utils/*"],
-            "@views/*": ["containers/views/*"],
-            "@shared/*": ["containers/shared/*"]
         },
         "jsx": "react",
         "alwaysStrict": true,

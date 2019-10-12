@@ -1,4 +1,8 @@
 import React from 'react';
+interface MyType {
+    aa : string
+}
+const mytype1: MyType = {aa :'23'}
 export function App() {
     const [todos, settodo] = React.useState([]);
     const addTodoList = (e) => {
@@ -20,6 +24,7 @@ export function App() {
                     }
                 </ul>
             </div>
+            <p>{mytype1.aa}</p>
         </>
     );
 }

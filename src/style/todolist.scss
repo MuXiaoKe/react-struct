@@ -1,0 +1,55 @@
+.inputWrap {
+    width: 100%;
+    height: 50px;
+    input {
+        width: 300px;
+    }
+}
+.inputWrap input {
+    padding: 5px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
+.list {
+    position: relative;
+    margin-top: 10px;
+}
+
+.list li {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    min-width: 500px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.checkSpan {
+    display: block;
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #bbb;
+    border-radius: 0;
+    margin-right: 5px;
+}
+.checkSpan:after {
+    position: absolute;
+    content: "";
+    left: 4px;
+    top: 1px;
+    width: 3px;
+    height: 6px;
+    border-bottom: 1px solid #fff;
+    border-right: 1px solid #fff;
+    -webkit-transform: rotate(45deg) scale(0);
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s ease;
+}
+.checked .checkSpan:after {
+    transform: rotate(45deg) scale(1);
+    border-color: #4d4d4d;
+}

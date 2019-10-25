@@ -35,6 +35,16 @@ module.exports = {
                 use: ["style-loader", 'css-loader', 'postcss-loader']
             },
             {
+                test: /\.scss$/,
+                include: [path.join(__dirname, '../', 'src')],
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                    'postcss-loader',
+                ]
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 use: [
                     {

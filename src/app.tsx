@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import './http/config'
-import './style/todolist.scss';
-import {getRandom} from './utils';
+import "./http/config";
+import "./style/todolist.scss";
+import {List} from 'antd';
+import 'antd/dist/antd.css'
 export function App() {
     const [todos, settodos] = useState([]);
     const [todo, settodo] = useState("");
@@ -14,22 +15,39 @@ export function App() {
         if (e.keyCode === 13) {
             settodos([...todos, todo]);
             settodo("");
+            addListData();
         }
     };
-    useEffect(() => {
-        axios
-            .get("qqq", {
+    const addListData = async () => {
+        try {
+            const res = await axios
+            .get("api/addList", {
                 params: {
-                    content: String(getRandom(0,100))
+                    content: String(todo)
                 }
             })
-            .then(function(response) {
-                console.log(response);
-                settodo(response.data)
+            console.log(res);
+            
+        } catch (error) {}
+    };
+    const getListData = async () => {
+        try {
+            const res = await axios
+            .get("api/getList", {
+                params: {
+                    // content: String(todo)
+                }
             })
-            .catch(function(error) {
-                console.log(error);
-            });
+            console.log(res.data);
+            settodos((prevState)=>{
+                const newState = [...prevState, ...res.data.map((item)=>item.content)]
+                console.log(newState)
+                return newState
+            })
+        } catch (error) {}
+    };
+    useEffect(() => {
+        getListData()
     }, []);
     return (
         <>
@@ -44,14 +62,19 @@ export function App() {
                 />
             </div>
             <div className="list">
-                <ul>
-                    {todos.map((item, index) => (
-                        <li key={index}>
-                            <span className="checkSpan"></span>
-                            <p>{item}</p>
-                        </li>
-                    ))}
-                </ul>
+                <List
+                    size="small"
+                    header={<div>待办列表</div>}
+                    footer={<div>{ `${new Date()}` }</div>}
+                    bordered
+                    dataSource={todos}
+                    renderItem={item => (
+                        <List.Item>
+                            <span className='checkSpan'></span>
+                            {item}
+                        </List.Item>
+                    )}
+                />
             </div>
         </>
     );

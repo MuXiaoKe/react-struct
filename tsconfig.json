@@ -38,7 +38,8 @@
         "typeRoots": [
             "node",
             "node_modules/@types"
-        ]
+        ],
+        "strict": true
     },
     "include": [ // 添加包含的文件和排除的文件，增加性能
         "src/**/*"

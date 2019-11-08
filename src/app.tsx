@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./http/config";
 import "./style/todolist.scss";
-import { List } from "antd";
+import { List , Icon} from "antd";
 import "antd/dist/antd.css";
 
 interface ItodoItem {
@@ -23,6 +23,7 @@ export function App() {
             addListData();
         }
     };
+    
     const addListData = async () => {
         try {
             const res = await axios.get("api/addList", {
@@ -51,6 +52,21 @@ export function App() {
             });
         } catch (error) {}
     };
+    // 删除行数据
+    const deleteList = async(index : number) =>{
+        const _todos:Array<string> = [...todos]
+        _todos.splice(index , 1)
+        settodos(_todos);
+        try {
+            const res = await axios.get("api/deleteList", {
+                params: {
+                    content: String(todo)
+                }
+            });
+            console.log(res.data);
+            
+        } catch (error) {}
+    }
     useEffect(() => {
         getListData();
     }, []);
@@ -73,10 +89,11 @@ export function App() {
                     footer={<div>{`${new Date()}`}</div>}
                     bordered
                     dataSource={todos}
-                    renderItem={item => (
+                    renderItem={(item , index)=> (
                         <List.Item>
                             <span className="checkSpan"></span>
                             {item}
+                            <Icon type="close" onClick={()=>deleteList(index)} />
                         </List.Item>
                     )}
                 />

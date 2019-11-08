@@ -27,6 +27,11 @@ router.get("/api/getList", async (ctx, next) => {
     const res = await db.findData("myDb", "todolist");
     ctx.body = res;
 });
+router.get("/api/deleteList", async (ctx, next) => {
+    // db.insertData(ctx.query)
+    const res = await db.deleteData("myDb", "todolist", ctx.query);
+    ctx.body = res;
+});
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(3000);

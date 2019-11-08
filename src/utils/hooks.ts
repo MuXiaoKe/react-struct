@@ -1,7 +1,10 @@
 import { useState, useEffect, useReducer } from "react";
 import axios from "axios";
-
-const dataFetchReducer = (state, action) => {
+interface Iaction {
+    type : string
+    payload?: object
+}
+const dataFetchReducer = (state: object, action: Iaction) => {
     switch (action.type) {
         case "FETCH_INIT":
             return { ...state, isLoading: true, isError: false };
@@ -23,7 +26,7 @@ const dataFetchReducer = (state, action) => {
     }
 };
 
-const useDataApi = (initialUrl, initialData) => {
+const useDataApi = (initialUrl: string, initialData: object) => {
     const [url, setUrl] = useState(initialUrl);
 
     const [state, dispatch] = useReducer(dataFetchReducer, {

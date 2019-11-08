@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./http/config";
 import "./style/todolist.scss";
-import {List} from 'antd';
-import 'antd/dist/antd.css'
+import { List } from "antd";
+import "antd/dist/antd.css";
+
+interface ItodoItem {
+    content: string;
+}
 export function App() {
-    const [todos, settodos] = useState([]);
+    const initData: Array<string> = [];
+    const [todos, settodos] = useState(initData);
     const [todo, settodo] = useState("");
 
-    const handleChange = e => {
-        settodo(e.currentTarget.value);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        settodo(event.currentTarget ? event.currentTarget.value : "");
     };
-    const addTodoList = e => {
+    const addTodoList = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.keyCode === 13) {
             settodos([...todos, todo]);
             settodo("");
@@ -20,34 +25,34 @@ export function App() {
     };
     const addListData = async () => {
         try {
-            const res = await axios
-            .get("api/addList", {
+            const res = await axios.get("api/addList", {
                 params: {
                     content: String(todo)
                 }
-            })
+            });
             console.log(res);
-            
         } catch (error) {}
     };
     const getListData = async () => {
         try {
-            const res = await axios
-            .get("api/getList", {
+            const res = await axios.get("api/getList", {
                 params: {
                     // content: String(todo)
                 }
-            })
+            });
             console.log(res.data);
-            settodos((prevState)=>{
-                const newState = [...prevState, ...res.data.map((item)=>item.content)]
-                console.log(newState)
-                return newState
-            })
+            settodos(prevState => {
+                const newState = [
+                    ...prevState,
+                    ...res.data.map((item: ItodoItem) => item.content)
+                ];
+                console.log(newState);
+                return newState;
+            });
         } catch (error) {}
     };
     useEffect(() => {
-        getListData()
+        getListData();
     }, []);
     return (
         <>
@@ -65,12 +70,12 @@ export function App() {
                 <List
                     size="small"
                     header={<div>待办列表</div>}
-                    footer={<div>{ `${new Date()}` }</div>}
+                    footer={<div>{`${new Date()}`}</div>}
                     bordered
                     dataSource={todos}
                     renderItem={item => (
                         <List.Item>
-                            <span className='checkSpan'></span>
+                            <span className="checkSpan"></span>
                             {item}
                         </List.Item>
                     )}

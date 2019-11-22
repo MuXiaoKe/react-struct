@@ -16,8 +16,8 @@ export function App() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         settodo(event.currentTarget ? event.currentTarget.value : "");
     };
-    const addTodoList = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.keyCode === 13) {
+    const addTodoList = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.keyCode === 13) {
             settodos([...todos, todo]);
             settodo("");
             addListData();

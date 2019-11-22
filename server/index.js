@@ -1,8 +1,8 @@
 const Koa = require("koa");
-const Router = require("koa-router");
-const cors = require("koa2-cors");
-const logger = require("koa-logger");
-const koaBody = require("koa-body");
+const Router = require("koa-router"); // 路由
+const cors = require("koa2-cors");  // 跨域
+const logger = require("koa-logger"); // koa-logger提供了输出请求日志的功能，包括请求的url、状态码、响应时间、响应体大小等信息
+const koaBody = require("koa-body"); // 解析请求体
 const db = require("./db.js");
 const app = new Koa();
 app.use(cors());

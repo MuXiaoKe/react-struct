@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./http/config";
-import "./style/todolist.scss";
+import "../../http/config";
+import "./todolist.scss";
 import { List , Icon} from "antd";
 import "antd/dist/antd.css";
 
 interface ItodoItem {
     content: string;
 }
-export function App() {
+export default function TodoList() {
     const initData: Array<string> = [];
     const [todos, settodos] = useState(initData);
     const [todo, settodo] = useState("");

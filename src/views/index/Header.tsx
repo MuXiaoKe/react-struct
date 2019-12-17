@@ -1,24 +1,37 @@
 import React from "react";
 import "./index.scss";
-import { Layout, Menu } from "antd";
+import { Layout, Icon } from "antd";
 
 // const { SubMenu } = Menu;
 const { Header } = Layout;
+// interface Istate {
+//     collapsed: boolean
+// }
+// interface Itype {
+//     type: string
+// }
 
 const Zhead = () => {
+    // const menuInitState:Istate = { collapsed: false };
+
+    // function menuReducer(state:Istate, action:Itype):Istate {
+    //     switch (action.type) {
+    //         case "toggle":
+    //             return { collapsed: !state.collapsed };
+    //         default:
+    //             throw new Error();
+    //     }
+    // }
+    // const [state, dispatch] = useReducer(menuReducer, menuInitState);
+    // const {state, dispatch} = useMenu()
     return (
-        <Header className="header">
-            <div className="logo" />
-            <Menu
-                theme="dark"
-                mode="horizontal"
-                defaultSelectedKeys={["2"]}
-                style={{ lineHeight: "64px" }}
-            >
-                <Menu.Item key="1">每日清单</Menu.Item>
-                <Menu.Item key="2">记账</Menu.Item>
-                <Menu.Item key="3">备忘</Menu.Item>
-            </Menu>
+        // state.collapsed ? 'menu-unfold' : 'menu-fold'
+        <Header style={{ background: '#fff', padding: 0 }}>
+            <Icon
+                className="menuTrigger"
+                type='menu-fold'
+                // onClick={() =>{dispatch({type:'toggle'})}}
+            />
         </Header>
     );
 };

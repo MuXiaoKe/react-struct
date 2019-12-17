@@ -1,23 +1,55 @@
 import React from "react";
 import "../../http/config";
-import { Layout, Menu, Icon } from 'antd';
-const {  Sider } = Layout;
+import { Layout, Menu, Icon } from "antd";
+const { Sider } = Layout;
 const { SubMenu } = Menu;
+
+// interface Istate {
+//     collapsed: boolean
+// }
+// interface Itype {
+//     type: string
+// }
+
 const Zsider = () => {
+    // const menuInitState:Istate = { collapsed: false };
+
+    // function menuReducer(state:Istate, action:Itype):Istate {
+    //     switch (action.type) {
+    //         case "toggle":
+    //             return { collapsed: !state.collapsed };
+    //         default:
+    //             throw new Error();
+    //     }
+    // }
+    // const [state] = useReducer(menuReducer, menuInitState);
     return (
-        <Sider width={200} style={{ background: "#fff" }}>
+        // state.collapsed
+        <Sider width={200} trigger={null} collapsible collapsed={false}>
+            <div
+                className="logo"
+                style={{
+                    height: "64px",
+                    lineHeight: "64px",
+                    color: "#FFF",
+                    textAlign: "center"
+                }}
+            >
+                My App
+            </div>
             <Menu
                 mode="inline"
                 defaultSelectedKeys={["1"]}
                 defaultOpenKeys={["sub1"]}
                 style={{ height: "100%", borderRight: 0 }}
+                theme="dark"
             >
                 <SubMenu
                     key="sub1"
                     title={
                         <span>
                             <Icon type="user" />
-                            subnav 1
+                            每日清单
                         </span>
                     }
                 >
@@ -28,7 +60,7 @@ const Zsider = () => {
                     title={
                         <span>
                             <Icon type="laptop" />
-                            subnav 2
+                            记账
                         </span>
                     }
                 >
@@ -39,7 +71,7 @@ const Zsider = () => {
                     title={
                         <span>
                             <Icon type="notification" />
-                            subnav 3
+                            备忘
                         </span>
                     }
                 >
@@ -47,6 +79,6 @@ const Zsider = () => {
                 </SubMenu>
             </Menu>
         </Sider>
-    )
-}
-export default Zsider
+    );
+};
+export default Zsider;

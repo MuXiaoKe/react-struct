@@ -1,9 +1,26 @@
-import React from "react";
-import "../../http/config";
+import React ,{SFC} from "react";
 import { Layout } from 'antd';
 const { Content } = Layout;
+import { Switch, Route } from "react-router-dom";
+import routes from "../../router/config";
 
-const Zcontent = () => {
+export const ContentRoute:SFC = () => {
+    return (
+        <Switch>
+            {routes.map((route, index) => (
+                <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    render={props => (
+                        <route.component {...props} routes={route.routes} />
+                    )}
+                />
+            ))}
+        </Switch>
+    );
+};
+const Zcontent:SFC = () => {
     return (
         <Content
             style={{
@@ -13,7 +30,7 @@ const Zcontent = () => {
                 minHeight: 280
             }}
         >
-            Content
+            <ContentRoute /> 
         </Content>
     );
 };

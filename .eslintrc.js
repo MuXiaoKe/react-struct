@@ -1,8 +1,10 @@
 module.exports = {
     extends: [
+        // "react-hooks",
         'alloy',
         'alloy/react',
         'alloy/typescript',
+
     ],
     globals: {
         // 这里填入你的项目需要的全局变量
@@ -14,7 +16,9 @@ module.exports = {
     rules: {
         'react/jsx-fragments':0,
         'quotes':["off", "single"],
-        'jsx-quotes':0
+        'jsx-quotes':0,
+        // "react-hooks/rules-of-hooks": "error",
+        // "react-hooks/exhaustive-deps": "warn"
         // 这里填入你的项目需要的个性化配置，比如：
         //
         // // 一个缩进必须用两个空格替代

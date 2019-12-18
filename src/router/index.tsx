@@ -4,7 +4,7 @@ import {
     HashRouter as Router,
     Switch,
     Route,
-    // Redirect
+    Redirect
 } from "react-router-dom";
 
 import IndexPage from "../views/index";
@@ -13,13 +13,13 @@ const AppRouter = function() {
     return (
         <Router>
             <Switch>
-                <Route path="/app" exact>
+                <Route path="/app">
                     <IndexPage />
                 </Route>
                 {/* <Route path="/login" exact>
                     <IndexPage />
                 </Route> */}
-                {/* <Redirect exact from="/" to="/app" /> */}
+                <Redirect exact from="/" to="/app" />
                 <Route>
                     <NotFound />
                 </Route> 

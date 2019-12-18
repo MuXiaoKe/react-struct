@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import routes from "../../router/config";
 
 export const ContentRoute:SFC = () => {
+    console.log(routes)
     return (
         <Switch>
             {routes.map((route, index) => (

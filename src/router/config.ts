@@ -1,6 +1,6 @@
 import TodoList from '../views/todoList/TodoList'
 import MainPage from '../views/index/Main'
-// import { SFC } from 'react';
+import {BASE_URL} from '../constants/index'
 interface Iroute {
     path: string;
     component: any;
@@ -10,12 +10,12 @@ interface Iroute {
 type Troutes =  Array<Iroute>
 const routes:Troutes = [
     {
-        path: "/",
+        path: BASE_URL + "/",
         exact: true,
         component: MainPage
     },
     {
-        path: "/TodoList",
+        path: BASE_URL + "/todolist",
         exact: true,
         component: TodoList
     },

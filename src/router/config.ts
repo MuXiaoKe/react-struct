@@ -3,6 +3,7 @@ import MainPage from '../views/index/Main'
 import {BASE_URL} from '../constants/index'
 interface Iroute {
     path: string;
+    breadcrumbName: string;
     component: any;
     exact?: boolean;
     routes?: Iroute;
@@ -12,11 +13,13 @@ const routes:Troutes = [
     {
         path: BASE_URL + "/",
         exact: true,
+        breadcrumbName: 'index',
         component: MainPage
     },
     {
         path: BASE_URL + "/todolist",
         exact: true,
+        breadcrumbName: 'todolist',
         component: TodoList
     },
     // {

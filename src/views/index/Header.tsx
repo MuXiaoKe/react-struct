@@ -5,6 +5,7 @@ import { Layout, Icon, Menu } from 'antd';
 const { Header } = Layout;
 
 import { CollapsedContext } from '../index';
+import { NavLink } from 'react-router-dom';
 // 有sider侧边栏时 的头部
 export const HeadWidthSider: React.SFC = () => {
     const { state, dispatch } = React.useContext(CollapsedContext);
@@ -40,12 +41,12 @@ export const HeadWidthMenu: React.SFC = () => {
             <Menu
                 theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={['2']}
+                defaultSelectedKeys={['todolist']}
                 style={{ lineHeight: '64px' }}
             >
-                <Menu.Item key="1">nav 1</Menu.Item>
-                <Menu.Item key="2">nav 2</Menu.Item>
-                <Menu.Item key="3">nav 3</Menu.Item>
+                <Menu.Item key="todolist"><NavLink to='/app/todolist'>每日清单</NavLink></Menu.Item>
+                <Menu.Item key="keepAccount">记账</Menu.Item>
+                <Menu.Item key="memo">备忘</Menu.Item>
             </Menu>
         </Header>
     );

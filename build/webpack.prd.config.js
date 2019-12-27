@@ -4,13 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
     devtool: 'none',
     /* 入口 */
     entry: {
         app: [
-            "@babel/polyfill",
+            // "@babel/polyfill",
             path.join(__dirname, '../src/index')
         ],
         vendor: ['react', 'react-router-dom', 'react-dom']
@@ -36,6 +36,16 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'postcss-loader']
+            },
+            {
+                test: /\.scss$/,
+                include: [path.join(__dirname, '../', 'src')],
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                    'postcss-loader',
+                ]
             },
             {
                 test: /\.(png|jpg|gif)$/,
@@ -67,7 +77,21 @@ module.exports = {
             filename: "[name].[contenthash].css",
             chunkFilename: "[id].[contenthash].css"
         }),
-        new OptimizeCssAssetsPlugin()
+        new OptimizeCssAssetsPlugin(),
+        new BundleAnalyzerPlugin(
+            {
+               analyzerMode: 'server',
+               analyzerHost: '127.0.0.1',
+               analyzerPort: 8889,
+               reportFilename: 'report.html',
+               defaultSizes: 'parsed',
+               openAnalyzer: true,
+               generateStatsFile: false,
+               statsFilename: 'stats.json',
+               statsOptions: null,
+               logLevel: 'info'
+            }
+        ),
     ],
     optimization: {
         splitChunks: {

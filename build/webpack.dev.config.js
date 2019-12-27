@@ -7,7 +7,7 @@ module.exports = {
     // rukou
     entry: {
         app: [
-            "@babel/polyfill",
+            // "@babel/polyfill", // core-js v3 已经不需要这个
             path.join(__dirname, '../src/index')
         ],
         vendor: ['react', 'react-router-dom', 'react-dom']

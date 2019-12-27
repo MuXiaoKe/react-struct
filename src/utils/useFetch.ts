@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
-import axios from 'axios';
-
+import axios,{AxiosResponse} from 'axios';
+interface Ires extends AxiosResponse {
+    code?: number
+}
 export function useFetch(params: any, visible = true) {
     const [data, setData] = useState();
     const [loading, setLoading] = useState(false);
@@ -11,7 +13,7 @@ export function useFetch(params: any, visible = true) {
         if (visible) {
             setLoading(true);
             // console.log("fetch===>");
-            const res = await axios(newParams);
+            const res : Ires = await axios(newParams);
             if (res.code === 1) {
                 setData(res.data);
             }

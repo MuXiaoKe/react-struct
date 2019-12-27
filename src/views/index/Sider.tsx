@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../http/config';
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu} from 'antd';
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -30,7 +30,7 @@ const Zsider = () => {
                     key="sub1"
                     title={
                         <span>
-                            <Icon type="user" />
+                            
                             每日清单
                         </span>
                     }
@@ -41,7 +41,7 @@ const Zsider = () => {
                     key="sub2"
                     title={
                         <span>
-                            <Icon type="laptop" />
+                            
                             记账
                         </span>
                     }
@@ -52,7 +52,7 @@ const Zsider = () => {
                     key="sub3"
                     title={
                         <span>
-                            <Icon type="notification" />
+                            
                             备忘
                         </span>
                     }

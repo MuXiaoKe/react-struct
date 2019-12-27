@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../http/config";
 import "./todolist.scss";
-import { List , Icon} from "antd";
+import { List } from "antd";
 import "antd/dist/antd.css";
-
+import { CloseOutlined } from '@ant-design/icons';
 interface ItodoItem {
     content: string;
 }
@@ -91,9 +91,9 @@ export default function TodoList() {
                     dataSource={todos}
                     renderItem={(item , index)=> (
                         <List.Item>
-                            <span className="checkSpan"></span>
+                            <span className="checkSpan" />
                             {item}
-                            <Icon type="close" onClick={()=>deleteList(index)} />
+                            <CloseOutlined  onClick={()=>deleteList(index)} />
                         </List.Item>
                     )}
                 />

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
-import { Layout, Icon, Menu } from 'antd';
-
+import { Layout, Menu } from 'antd';
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 
 import { CollapsedContext } from '../index';
@@ -11,13 +11,24 @@ export const HeadWidthSider: React.SFC = () => {
     const { state, dispatch } = React.useContext(CollapsedContext);
     return (
         <Header style={{ background: '#fff', padding: 0 }}>
-            <Icon
-                className="menuTrigger"
-                type={!!state && state.collapsed ? 'menu-unfold' : 'menu-fold'}
+            {/* {React.createElement(!!state && state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                className="menuTrigger",
                 onClick={() => {
-                    !!dispatch && dispatch({ type: 'toggle' });
+                    !!dispatch && dispatch({ type: 'toggle' })
                 }}
-            />
+            })} */}
+            {
+                !!state && state.collapsed ?
+                <MenuUnfoldOutlined className="menuTrigger"
+                onClick={() => {
+                    !!dispatch && dispatch({ type: 'toggle' })
+                }}/>
+                    :
+                <MenuFoldOutlined className="menuTrigger"
+                onClick={() => {
+                    !!dispatch && dispatch({ type: 'toggle' })
+                }}/>
+            }
         </Header>
     );
 };
@@ -44,7 +55,9 @@ export const HeadWidthMenu: React.SFC = () => {
                 defaultSelectedKeys={['todolist']}
                 style={{ lineHeight: '64px' }}
             >
-                <Menu.Item key="todolist"><NavLink to='/app/todolist'>每日清单</NavLink></Menu.Item>
+                <Menu.Item key="todolist">
+                    <NavLink to="/app/todolist">每日清单</NavLink>
+                </Menu.Item>
                 <Menu.Item key="keepAccount">记账</Menu.Item>
                 <Menu.Item key="memo">备忘</Menu.Item>
             </Menu>

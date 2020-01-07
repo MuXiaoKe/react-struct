@@ -1,15 +1,10 @@
 import React from 'react';
-import '../../http/config';
-
 import { Layout } from 'antd';
+import SiderMenu from '../SiderMenu';
+import MainHeader from '../MainHeader';
+// import MainFooter from "../MainFooter";
 
-import {HeadWidthMenu} from './Header'; // 头部
-import Zbreadcrumb from './Breadcrumb'; // 面包屑
-// import Zsider from './Sider'; // 侧边栏
-import Zcontent from './Content'; // 侧边栏
-
-import './index.scss';
-
+import './style.scss';
 interface Istate {
     collapsed?: boolean;
 }
@@ -18,7 +13,7 @@ interface Itype {
 }
 interface IContextProps {
     state?: Istate;
-    dispatch?: React.Dispatch<Itype>
+    dispatch?: React.Dispatch<Itype>;
 }
 const menuInitState: Istate = { collapsed: false };
 
@@ -33,21 +28,23 @@ function menuReducer(state: Istate, action: Itype): Istate {
 const _context: IContextProps = {};
 export const CollapsedContext = React.createContext(_context);
 
-export default function IndexPage() {
+const BasicLayout = ({ route, children }) => {
     const [state, dispatch] = React.useReducer(menuReducer, menuInitState);
+    // console.log(route, children);
     return (
         <CollapsedContext.Provider value={{ state, dispatch }}>
-            <Layout>
-                {/* <Zsider /> */}
-                {/* <Layout> */}
-                    <HeadWidthMenu />
-                    <Layout style={{ padding: '0 50px', marginTop: 64 }}>
-                        <Zbreadcrumb />
-                        <Zcontent />
-                        <Layout.Footer style={{ textAlign: 'center' }}>Created by ZH</Layout.Footer>
-                    </Layout>
-                {/* </Layout> */}
+            <Layout className="main-layout">
+                <SiderMenu routes={route.children} />
+                {/* 左侧菜单导航 */}
+                <Layout className="main-layout-right">
+                    <MainHeader />
+                    <Layout.Content className="main-layout-content">
+                        {children}
+                    </Layout.Content>
+                </Layout>
             </Layout>
         </CollapsedContext.Provider>
     );
-}
+};
+
+export default BasicLayout;

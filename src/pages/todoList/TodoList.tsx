@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../../http/config";
+import "../../services/config";
 import "./todolist.scss";
 import { List } from "antd";
 import "antd/dist/antd.css";
@@ -14,7 +14,8 @@ export default function TodoList() {
     const [todo, settodo] = useState("");
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        settodo(event.currentTarget ? event.currentTarget.value : "");
+        // settodo(event.currentTarget ? event.currentTarget.value : "");
+        settodo( event.currentTarget?.value ?? ""); // 可选链
     };
     const addTodoList = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.keyCode === 13) {

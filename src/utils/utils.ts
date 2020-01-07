@@ -9,7 +9,7 @@ export function getRandom(min: number, max: number) {
  * @returns 随机生成长度为len的数组
  */
 export function getArr(len: number) {
-    let arr = [];
+    let arr: number[] = [];
     for (let i = 0; i < len; i++) {
         arr.push(getRandom(1, len));
     }

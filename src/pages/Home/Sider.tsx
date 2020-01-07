@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../http/config';
+import '../../services/config';
 import { Layout, Menu} from 'antd';
 const { Sider } = Layout;
 const { SubMenu } = Menu;

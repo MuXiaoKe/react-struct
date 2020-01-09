@@ -16,3 +16,4 @@ export function getArr(len: number) {
 
     return arr;
 }
+export const isDev = process.env.NODE_ENV === 'development'; // 开发 or 生产

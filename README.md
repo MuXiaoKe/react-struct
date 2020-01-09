@@ -5,7 +5,7 @@
 
 ## 说明
 
-本项目为 React 中后台项目框架模板，方便快速进行具体项目开发。包括 Webpack4.0 配置及打包优化、React 全家桶使用（React + React-router + Axios + Mobx + Antd）、ESLint 等项目开发规范等。
+本项目为 React 中后台项目框架模板，方便快速进行具体项目开发。包括 Webpack4.0 配置及打包优化、React 全家桶使用（React + React-router + Axios + Antd）、ESLint 等项目开发规范等。
 
 项目 Git 地址：[https://github.com/MuXiaoKe/notes](https://github.com/MuXiaoKe/notes)；
 

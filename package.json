@@ -62,7 +62,8 @@
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "postcss-cssnext": "^3.1.0",
         "postcss-loader": "^3.0.0",
-        "postcss-preset-env": "^6.7.0",
+		"postcss-preset-env": "^6.7.0",
+        "prettier": "^1.19.1",
         "sass-loader": "^8.0.0",
         "style-loader": "^0.23.1",
         "ts-loader": "^6.2.1",
@@ -85,6 +86,7 @@
     },
     "lint-staged": {
         "src/**/*.{ts, tsx, js, jsx, json, css, md}": [
+			"eslint --fix --ext .js",
             "prettier --write",
             "git add"
         ]

@@ -38,9 +38,7 @@ const BasicLayout = ({ route, children }) => {
                 {/* 左侧菜单导航 */}
                 <Layout className="main-layout-right">
                     <MainHeader />
-                    <Layout.Content className="main-layout-content">
-                        {children}
-                    </Layout.Content>
+                    <Layout.Content className="main-layout-content">{children}</Layout.Content>
                 </Layout>
             </Layout>
         </CollapsedContext.Provider>

@@ -3,14 +3,16 @@ module.exports = {
         // "react-hooks",
         'alloy',
         'alloy/react',
-        'alloy/typescript'
+        'alloy/typescript',
+        'plugin:prettier/recommended'
     ],
     settings: {
-        'import/resolver': { // 引用路径的快捷方式
+        'import/resolver': {
+            // 引用路径的快捷方式
             webpack: {
                 config: './build/webpack.base.config.js'
             }
-        },
+        }
     },
     globals: {
         // 这里填入你的项目需要的全局变量
@@ -23,5 +25,7 @@ module.exports = {
         'react/jsx-fragments': 0,
         quotes: ['off', 'single'],
         'jsx-quotes': 0,
-    }
+        'prettier/prettier': 'error'
+    },
+    plugins: ['prettier']
 };

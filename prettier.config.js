@@ -33,5 +33,5 @@ module.exports = {
     // decide whether to break the html according to the display style
     htmlWhitespaceSensitivity: 'css',
     // lf for newline
-    endOfLine: 'lf',
-}
+    endOfLine: 'auto'
+};

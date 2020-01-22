@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 import BasicLayout from '@src/layouts/BasicLayout';
-// import BlankLayout from '@src/layouts/BlankLayout';
+import BlankLayout from '@src/layouts/BlankLayout';
 
 // import TodoList from '../pages/todoList/TodoList';
 // import MainPage from '../pages/index/Main';

@@ -1,4 +1,4 @@
-import React ,{SFC} from "react";
+import React, { SFC } from 'react';
 import { Layout } from 'antd';
 const { Content } = Layout;
 // import { Switch, Route } from "react-router-dom";
@@ -18,18 +18,16 @@ const { Content } = Layout;
 //                     )}
 //                 />
 //             ))}
-            
+
 //         </Switch>
-        
-        
-        
+
 //     );
 // };
-const Zcontent:SFC = () => {
+const Zcontent: SFC = () => {
     return (
         <Content
             style={{
-                background: "#fff",
+                background: '#fff',
                 padding: 24,
                 margin: 0,
                 minHeight: 280

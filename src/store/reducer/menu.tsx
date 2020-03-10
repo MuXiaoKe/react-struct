@@ -1,15 +1,15 @@
 // import {useReducer} from "react";
 interface Istate {
-    collapsed: boolean
+    collapsed: boolean;
 }
 interface Itype {
-    type: string
+    type: string;
 }
-export const menuInitState:Istate = { collapsed: false };
+export const menuInitState: Istate = { collapsed: false };
 
-export function menuReducer(state:Istate, action:Itype):Istate {
+export function menuReducer(state: Istate, action: Itype): Istate {
     switch (action.type) {
-        case "toggle":
+        case 'toggle':
             return { collapsed: !state.collapsed };
         default:
             throw new Error();

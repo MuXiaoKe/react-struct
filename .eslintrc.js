@@ -4,7 +4,7 @@ module.exports = {
         'alloy',
         'alloy/react',
         'alloy/typescript',
-        'plugin:prettier/recommended'
+        'plugin:prettier/recommended',
     ],
     settings: {
         'import/resolver': {
@@ -25,7 +25,10 @@ module.exports = {
         'react/jsx-fragments': 0,
         quotes: ['off', 'single'],
         'jsx-quotes': 0,
-        'prettier/prettier': 'error'
+        'prettier/prettier': 'error',
+        
+        // "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+        // "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
     },
     plugins: ['prettier']
 };

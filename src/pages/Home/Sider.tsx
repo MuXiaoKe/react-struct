@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../services/config';
-import { Layout, Menu} from 'antd';
+import { Layout, Menu } from 'antd';
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -14,7 +14,7 @@ const Zsider = () => {
                     height: '64px',
                     lineHeight: '64px',
                     color: '#FFF',
-                    textAlign: 'center',
+                    textAlign: 'center'
                 }}
             >
                 My App
@@ -26,37 +26,13 @@ const Zsider = () => {
                 style={{ height: '100%', borderRight: 0 }}
                 theme="dark"
             >
-                <SubMenu
-                    key="sub1"
-                    title={
-                        <span>
-                            
-                            每日清单
-                        </span>
-                    }
-                >
+                <SubMenu key="sub1" title={<span>每日清单</span>}>
                     <Menu.Item key="1">option1</Menu.Item>
                 </SubMenu>
-                <SubMenu
-                    key="sub2"
-                    title={
-                        <span>
-                            
-                            记账
-                        </span>
-                    }
-                >
+                <SubMenu key="sub2" title={<span>记账</span>}>
                     <Menu.Item key="5">option5</Menu.Item>
                 </SubMenu>
-                <SubMenu
-                    key="sub3"
-                    title={
-                        <span>
-                            
-                            备忘
-                        </span>
-                    }
-                >
+                <SubMenu key="sub3" title={<span>备忘</span>}>
                     <Menu.Item key="9">option9</Menu.Item>
                 </SubMenu>
             </Menu>

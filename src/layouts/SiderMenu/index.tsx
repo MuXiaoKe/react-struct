@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
-
+import { appStores } from '@src/store';
 import './style.scss';
+import { RadarChartOutlined } from '@ant-design/icons';
 
 const renderMenuItem = (target) => {
     return target
@@ -40,6 +42,7 @@ const renderMenuItem = (target) => {
 };
 
 const SiderMenu = ({ routes }) => {
+    const { globalStore } = appStores();
     const { pathname } = useLocation();
     // console.log(pathname);
     const [openKeys, setOpenKeys] = useState([]);
@@ -63,13 +66,15 @@ const SiderMenu = ({ routes }) => {
         <Layout.Sider
             trigger={null}
             collapsible
-            // collapsed={globalStore.collapsed}
+            collapsed={globalStore.collapsed}
             className="main-left-slider"
         >
             <Link to="/">
                 <Row align="middle" className="main-logo">
-                    {/* <Icon type="car" style={{ color: '#13e367' }} />
-          {!globalStore.collapsed && <span className="app-name">{globalStore.appTitle}</span>} */}
+                    <RadarChartOutlined />
+                    {!globalStore.collapsed && (
+                        <span className="app-name">{globalStore.appTitle}</span>
+                    )}
                 </Row>
             </Link>
             <Menu
@@ -87,4 +92,4 @@ const SiderMenu = ({ routes }) => {
     );
 };
 
-export default SiderMenu;
+export default observer(SiderMenu);

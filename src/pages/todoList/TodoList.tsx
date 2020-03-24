@@ -9,8 +9,8 @@ interface ItodoItem {
     content: string;
 }
 export default function TodoList() {
-    const initData: Array<string> = [];
-    const [todos, settodos] = useState(initData);
+    // const initData: Array<string> = [];
+    const [todos, settodos] = useState<string[]>([]);
     const [todo, settodo] = useState('');
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

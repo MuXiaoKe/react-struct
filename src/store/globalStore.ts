@@ -13,10 +13,10 @@ export default class GlobalStore {
         loginName: 'zhou'
     };
 
-    @action.bound
-    public toggleCollapsed() {
+    @action
+    public toggleCollapsed = () => {
         this.collapsed = !this.collapsed;
-    }
+    };
 
     @action.bound
     public setData(data = {}) {

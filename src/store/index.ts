@@ -1,6 +1,6 @@
 import React from 'react';
 
-const context = {};
+const context: any = {};
 
 const req = require.context('.', true, /Store$/);
 console.log(req);

@@ -35,6 +35,13 @@ const routes = [
                         component: lazy(() => import('@src/pages/Home/index'))
                     },
                     {
+                        path: '/table',
+                        name: 'table',
+                        breadcrumbName: 'table',
+                        icon: 'home',
+                        component: lazy(() => import('@src/pages/Table/index'))
+                    },
+                    {
                         path: '/exception',
                         name: '异常页',
                         breadcrumbName: '异常页',

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 
 class HomeStore {
     @observable
@@ -7,6 +7,11 @@ class HomeStore {
 
     @observable
     public loading = false;
+
+    @action
+    public setTitle = (title) => {
+        this.pageTitle = title;
+    };
 }
 
 export default createContext(new HomeStore());

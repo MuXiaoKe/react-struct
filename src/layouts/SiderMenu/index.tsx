@@ -19,7 +19,7 @@ const renderMenuItem = (target) => {
                         key={subMenu.path}
                         title={
                             <div>
-                                {/* {subMenu.icon && <Icon type={subMenu.icon} />} */}
+                                {subMenu.icon ? React.createElement(subMenu.icon) : null}
                                 <span>{subMenu.name}</span>
                             </div>
                         }
@@ -32,7 +32,7 @@ const renderMenuItem = (target) => {
                 <Menu.Item key={subMenu.path}>
                     <Link to={subMenu.path}>
                         <span>
-                            {/* {subMenu.icon && <Icon type={subMenu.icon} />} */}
+                            {subMenu.icon ? React.createElement(subMenu.icon) : null}
                             <span>{subMenu.name}</span>
                         </span>
                     </Link>

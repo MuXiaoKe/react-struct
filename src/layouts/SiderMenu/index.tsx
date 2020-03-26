@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
 import { appStores } from '@src/store';
 import './style.scss';
-import { RadarChartOutlined } from '@ant-design/icons';
+import { RadarChartOutlined, HomeOutlined } from '@ant-design/icons';
 
 const renderMenuItem = (target) => {
     return target
@@ -32,7 +32,7 @@ const renderMenuItem = (target) => {
                 <Menu.Item key={subMenu.path}>
                     <Link to={subMenu.path}>
                         <span>
-                            {subMenu.icon ? React.createElement(subMenu.icon) : null}
+                            {subMenu.icon ? React.createElement(HomeOutlined) : null}
                             <span>{subMenu.name}</span>
                         </span>
                     </Link>

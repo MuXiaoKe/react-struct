@@ -31,7 +31,7 @@ const routes = [
                         path: '/home',
                         name: 'home主页',
                         breadcrumbName: 'home',
-                        icon: 'home',
+                        icon: 'HomeOutlined',
                         component: lazy(() => import('@src/pages/Home/index'))
                     },
                     {

@@ -1,21 +1,21 @@
-import { useState, useEffect, useReducer } from "react";
-import axios from "axios";
+import { useState, useEffect, useReducer } from 'react';
+import axios from 'axios';
 interface Iaction {
-    type : string
-    payload?: object
+    type: string;
+    payload?: object;
 }
 const dataFetchReducer = (state: object, action: Iaction) => {
     switch (action.type) {
-        case "FETCH_INIT":
+        case 'FETCH_INIT':
             return { ...state, isLoading: true, isError: false };
-        case "FETCH_SUCCESS":
+        case 'FETCH_SUCCESS':
             return {
                 ...state,
                 isLoading: false,
                 isError: false,
                 data: action.payload
             };
-        case "FETCH_FAILURE":
+        case 'FETCH_FAILURE':
             return {
                 ...state,
                 isLoading: false,
@@ -39,17 +39,17 @@ const useDataApi = (initialUrl: string, initialData: object) => {
         let didCancel = false;
 
         const fetchData = async () => {
-            dispatch({ type: "FETCH_INIT" });
+            dispatch({ type: 'FETCH_INIT' });
 
             try {
                 const result = await axios(url);
 
                 if (!didCancel) {
-                    dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+                    dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
                 }
             } catch (error) {
                 if (!didCancel) {
-                    dispatch({ type: "FETCH_FAILURE" });
+                    dispatch({ type: 'FETCH_FAILURE' });
                 }
             }
         };

@@ -25,7 +25,12 @@ router.get("/api/addList",async (ctx, next) => {
 router.get("/api/getList", async (ctx, next) => {
     // db.insertData(ctx.query)
     const res = await db.findData("myDb", "todolist");
-    ctx.body = res;
+    ctx.body = {
+        data: res,
+        success: true,
+        errorCode: null,
+        msg: null
+    };
 });
 router.get("/api/deleteList", async (ctx, next) => {
     // db.insertData(ctx.query)

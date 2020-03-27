@@ -38,14 +38,13 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
     (response) => {
-        console.log('1233');
         if (!showAuthError && response.data.errorCode === '70000') {
             showAuthError = true;
             setTimeout(() => {
                 showAuthError = false;
                 location.href = '#/login';
             }, 300);
-            return Promise.resolve(null);
+            return Promise.resolve(response);
         }
         // if (response.data.errorCode === 401) {
         //     return Promise.reject({
@@ -81,7 +80,7 @@ instance.interceptors.response.use(
             };
             return Promise.reject(_err);
         }
-        return resFormat(rdata);
+        return Promise.resolve(resFormat(rdata));
     },
     (error) => {
         console.log('3456');

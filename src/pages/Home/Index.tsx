@@ -62,7 +62,7 @@ export default observer(function IndexPage() {
             >
                 click
             </button>
-            {list.map((item) => (
+            {list.map((item: { _id: number; content: string }) => (
                 <span key={item._id}>{item.content}</span>
             ))}
             <Table dataSource={dataSource} columns={columns} />

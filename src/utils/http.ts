@@ -10,9 +10,9 @@ let showAuthError = false;
 // 队列
 // const queue = [];
 // 是否有成功字段
-const isSuccess = (res) => res.success;
+const isSuccess = (res: any) => res.success;
 // 返回response 字段或者 data字段或者 {}
-const resFormat = (res) => res.response || res.data || {};
+const resFormat = (res: any) => res.response || res.data || {};
 
 // Set config defaults when creating the instance
 const instance = axios.create({

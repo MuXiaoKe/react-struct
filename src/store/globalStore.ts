@@ -1,7 +1,11 @@
 import { observable, action } from 'mobx';
 // import request from '@/services/request';
+interface Iglobal {
+    [propName: string]: any;
+}
+export default class GlobalStore implements Iglobal {
+    [propName: string]: any;
 
-export default class GlobalStore {
     @observable public loading = false;
 
     @observable public appTitle = '管理平台';
@@ -18,10 +22,14 @@ export default class GlobalStore {
         this.collapsed = !this.collapsed;
     };
 
-    @action.bound
+    @action.bound // 设置属性隐射 -》 data -> this
     public setData(data = {}) {
-        Object.entries(data).forEach((item) => {
-            this[item[0]] = item[1];
-        });
+        // data => {key: value}
+        // Object.entries(data).forEach((item: [any, any]) => {
+        //     this[item[0]] = item[1];
+        // });
+        for (let [key, value] of Object.entries(data)) {
+            this[key] = value;
+        }
     }
 }

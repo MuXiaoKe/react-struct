@@ -47,7 +47,7 @@ export default observer(function IndexPage() {
 
     const { data: list, error } = useSWR('api/getList');
     // const res = list?.data;
-    console.log(list);
+    // console.log(list);
     // useSWR('api/addList', undefined);
     if (error) return <div>failed to load</div>;
     if (!list) return <div>loading...</div>;

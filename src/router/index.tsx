@@ -5,7 +5,7 @@ import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import LoadingPage from '@src/components/LoadingPage';
 import config from './config';
 
-const renderRoutes = (routes) => {
+const renderRoutes = (routes: any[]) => {
     if (!Array.isArray(routes)) {
         return null;
     }
@@ -52,7 +52,6 @@ const renderRoutes = (routes) => {
 };
 
 const AppRouter = () => {
-    console.log(renderRoutes(config));
     return <Router>{renderRoutes(config)}</Router>;
 };
 

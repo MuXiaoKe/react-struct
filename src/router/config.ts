@@ -30,9 +30,16 @@ const routes = [
                     {
                         path: '/home',
                         name: 'home主页',
-                        breadcrumbName: 'home',
+                        breadcrumbName: '首页',
                         icon: 'HomeOutlined',
                         component: lazy(() => import('@src/pages/Home/index'))
+                    },
+                    {
+                        path: '/table',
+                        name: '测试页',
+                        breadcrumbName: '测试页',
+                        icon: 'HomeOutlined',
+                        component: lazy(() => import('@src/pages/Table/index'))
                     },
                     {
                         path: '/exception',

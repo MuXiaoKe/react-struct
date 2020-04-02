@@ -1,217 +1,137 @@
-import React, { useRef, useState } from 'react';
-// import { PlusOutlined } from '@ant-design/icons';
-import { Button, Drawer, Tag } from 'antd';
-import ProTable, { ProColumns, TableDropdown, ActionType } from '@ant-design/pro-table';
-// import request from 'umi-request';
+import React from 'react';
+import { Button, Col, Form, Input, Row, Table, Select } from 'antd';
+import { useFormTable } from '@umijs/hooks';
+import { PaginatedParams } from '@umijs/hooks/lib/useFormTable';
 
-interface GithubIssueItem {
-    url: string;
-    repository_url: string;
-    labels_url: string;
-    comments_url: string;
-    events_url: string;
-    html_url: string;
-    id: number;
-    node_id: string;
-    number: number;
-    title: string;
-    user: User;
-    labels: Label[];
-    state: string;
-    locked: boolean;
-    assignee?: any;
-    assignees: any[];
-    milestone?: any;
-    comments: number;
-    created_at: string;
-    updated_at: string;
-    closed_at?: any;
-    author_association: string;
-    body: string;
+const { Option } = Select;
+
+interface Item {
+    name: {
+        last: string;
+    };
+    email: string;
+    phone: string;
+    gender: 'male' | 'female';
 }
 
-interface Label {
-    id: number;
-    node_id: string;
-    url: string;
-    name: string;
-    color: string;
-    default: boolean;
-    description: string;
+interface Result {
+    total: number;
+    list: Item[];
 }
 
-interface User {
-    login: string;
-    id: number;
-    node_id: string;
-    avatar_url: string;
-    gravatar_id: string;
-    url: string;
-    html_url: string;
-    followers_url: string;
-    following_url: string;
-    gists_url: string;
-    starred_url: string;
-    subscriptions_url: string;
-    organizations_url: string;
-    repos_url: string;
-    events_url: string;
-    received_events_url: string;
-    type: string;
-    site_admin: boolean;
-}
-
-const columns: ProColumns<GithubIssueItem>[] = [
-    {
-        title: '序号',
-        dataIndex: 'index',
-        valueType: 'indexBorder',
-        width: 72
-    },
-    {
-        title: '标题',
-        dataIndex: 'title',
-        copyable: true,
-        ellipsis: true,
-        rules: [
-            {
-                required: true,
-                message: '此项为必填项'
-            }
-        ],
-        width: 200,
-        hideInSearch: true
-    },
-    {
-        title: '状态',
-        dataIndex: 'state',
-        initialValue: 'all',
-        valueEnum: {
-            all: { text: '全部', status: 'Default' },
-            open: {
-                text: '未解决',
-                status: 'Error'
-            },
-            closed: {
-                text: '已解决',
-                status: 'Success'
-            }
+const getTableData = (
+    { current, pageSize }: PaginatedParams[0],
+    formData: Object
+): Promise<Result> => {
+    let query = `page=${current}&size=${pageSize}`;
+    Object.entries(formData).forEach(([key, value]) => {
+        if (value) {
+            query += `&${key}=${value}`;
         }
-    },
-    {
-        title: '标签',
-        dataIndex: 'labels',
-        width: 120,
-        render: (_, row) =>
-            row.labels.map(({ name, id, color }) => (
-                <Tag
-                    color={`#${color}`}
-                    key={id}
-                    style={{
-                        margin: 4
-                    }}
-                >
-                    {name}
-                </Tag>
-            ))
-    },
-    {
-        title: '创建时间',
-        key: 'since',
-        dataIndex: 'created_at',
-        valueType: 'dateTime',
-        hideInForm: true
-    },
-    {
-        title: 'option',
-        valueType: 'option',
-        // eslint-disable-next-line max-params
-        render: (text, row, _, action) => [
-            <a href={row.html_url} target="_blank" rel="noopener noreferrer" key="text">
-                查看
-            </a>,
-            <TableDropdown
-                key="text"
-                onSelect={() => action.reload()}
-                menus={[
-                    { key: 'copy', name: '复制' },
-                    { key: 'delete', name: '删除' }
-                ]}
-            />
-        ]
-    }
-];
+    });
+
+    return fetch(`https://randomuser.me/api?results=55&${query}`)
+        .then((res) => res.json())
+        .then((res) => ({
+            total: res.info.results,
+            list: res.results
+        }));
+};
 
 export default () => {
-    const actionRef = useRef<ActionType>();
-    const [visible, setVisible] = useState(false);
+    const [form] = Form.useForm();
+
+    const { tableProps, search } = useFormTable(getTableData, {
+        defaultPageSize: 10,
+        form
+    });
+
+    const { type, changeType, submit, reset } = search;
+
+    const columns = [
+        {
+            title: 'name',
+            dataIndex: 'name.last'
+        },
+        {
+            title: 'email',
+            dataIndex: 'email'
+        },
+        {
+            title: 'phone',
+            dataIndex: 'phone'
+        },
+        {
+            title: 'gender',
+            dataIndex: 'gender'
+        }
+    ];
+
+    const advanceSearchForm = (
+        <div>
+            <Form form={form}>
+                <Row gutter={24}>
+                    <Col span={6}>
+                        <Form.Item label="name" name="name">
+                            <Input placeholder="name" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item label="email" name="email">
+                            <Input placeholder="email" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item label="phone" name="phone">
+                            <Input placeholder="phone" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button type="primary" onClick={submit}>
+                                搜索
+                            </Button>
+                            <Button onClick={reset} style={{ marginLeft: 16 }}>
+                                清空
+                            </Button>
+                            <Button type="link" onClick={changeType}>
+                                简易搜索
+                            </Button>
+                        </Form.Item>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
+    );
+
+    const searchFrom = (
+        <div style={{ marginBottom: 16 }}>
+            <Form form={form} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Form.Item name="gender">
+                    <Select style={{ width: 120, marginRight: 16 }} onChange={submit}>
+                        <Option value="">all</Option>
+                        <Option value="male">male</Option>
+                        <Option value="female">female</Option>
+                    </Select>
+                </Form.Item>
+                <Form.Item name="name">
+                    <Input.Search
+                        placeholder="enter name"
+                        style={{ width: 240 }}
+                        onSearch={submit}
+                    />
+                </Form.Item>
+                <Button type="link" onClick={changeType}>
+                    高级搜索
+                </Button>
+            </Form>
+        </div>
+    );
+
     return (
-        <>
-            <Drawer width={600} onClose={() => setVisible(false)} visible={visible}>
-                <Button
-                    style={{
-                        margin: 8
-                    }}
-                    onClick={() => {
-                        if (actionRef.current) {
-                            actionRef.current.reload();
-                        }
-                    }}
-                >
-                    刷新
-                </Button>
-                <Button
-                    onClick={() => {
-                        if (actionRef.current) {
-                            actionRef.current.reset();
-                        }
-                    }}
-                >
-                    重置
-                </Button>
-                <ProTable<GithubIssueItem>
-                    columns={columns}
-                    type="form"
-                    onSubmit={(params) => console.log(params)}
-                />
-            </Drawer>
-            <ProTable<GithubIssueItem>
-                columns={columns}
-                actionRef={actionRef}
-                // request={async (params = {}) => {
-                //     const data = await request<GithubIssueItem[]>(
-                //         'https://api.github.com/repos/ant-design/ant-design-pro/issues',
-                //         {
-                //             params: {
-                //                 ...params,
-                //                 page: params.current,
-                //                 per_page: params.pageSize
-                //             }
-                //         }
-                //     );
-                //     const totalObj = await request(
-                //         'https://api.github.com/repos/ant-design/ant-design-pro/issues?per_page=1',
-                //         {
-                //             params
-                //         }
-                //     );
-                //     return {
-                //         data,
-                //         page: params.current,
-                //         success: true,
-                //         total: ((totalObj[0] || { number: 0 }).number - 56) as number
-                //     };
-                // }}
-                rowKey="id"
-                dateFormatter="string"
-                headerTitle="基础 Table"
-                // toolBarRender={() => [
-                //     <Button key="3" type="primary">
-                //         <PlusOutlined />
-                //         新建
-                //     </Button>
-                // ]}
-            />
-        </>
+        <div>
+            {type === 'simple' ? searchFrom : advanceSearchForm}
+            <Table columns={columns} rowKey="email" {...tableProps} />
+        </div>
     );
 };

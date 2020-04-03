@@ -3,6 +3,16 @@ import { observable, action } from 'mobx';
 interface Iglobal {
     [propName: string]: any;
 }
+interface UserInfo {
+    userName?: string;
+    authCodes?: any[];
+    acconutId?: string;
+    loginName?: string;
+    deptId?: string;
+    deptName?: string;
+    roleName?: string;
+    roleId?: string;
+}
 export default class GlobalStore implements Iglobal {
     [propName: string]: any;
 
@@ -12,10 +22,7 @@ export default class GlobalStore implements Iglobal {
 
     @observable public collapsed = false; // 菜单收起展开
 
-    @observable public userInfo = {
-        // 当前用户信息
-        loginName: 'zhou'
-    };
+    @observable public userInfo: UserInfo;
 
     @action
     public toggleCollapsed = () => {
@@ -32,4 +39,29 @@ export default class GlobalStore implements Iglobal {
             this[key] = value;
         }
     }
+
+    // @action
+    // getUserInfo = async (cache = true): Promise<UserInfo> => {
+    //     if (!cache || !this.userInfo) {
+    //         try {
+    //             runInAction(() => {
+    //                 this.loading = true;
+    //             });
+    //             const res = await this.api.getUserInfo({});
+    //             if (!res) {
+    //                 this.refresh(); // 更新验证码
+    //             }
+
+    //             runInAction(() => {
+    //                 this.userInfo = res;
+    //             });
+    //         } catch {
+    //             runInAction(() => {
+    //                 // 用于解决无线跳转的问题
+    //                 this.userInfo = null;
+    //             });
+    //         }
+    //     }
+    //     return this.userInfo;
+    // };
 }

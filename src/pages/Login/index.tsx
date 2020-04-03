@@ -1,7 +1,7 @@
 import React from 'react';
 // import { useHistory } from 'react-router-dom';
 import { Form, Input, Checkbox, Button } from 'antd';
-
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
@@ -32,7 +32,10 @@ const LoginPage = () => {
                 name="username"
                 rules={[{ required: true, message: 'Please input your username!' }]}
             >
-                <Input />
+                <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Username"
+                />
             </Form.Item>
 
             <Form.Item
@@ -40,11 +43,26 @@ const LoginPage = () => {
                 name="password"
                 rules={[{ required: true, message: 'Please input your password!' }]}
             >
-                <Input.Password />
+                <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Password"
+                />
             </Form.Item>
 
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
+            <Form.Item>
+                <Input
+                    placeholder="请输入验证码"
+                    id="captcha"
+                    // onChange={() => this.userStore.setEnter()}
+                />
+                {/* <img
+                    id="captchaImg"
+                    ref={this.userStore.handleCaptcha}
+                    onClick={() =>
+                        this.userStore.handleCaptcha(document.getElementById('captchaImg'))
+                    }
+                /> */}
             </Form.Item>
 
             <Form.Item {...tailLayout}>

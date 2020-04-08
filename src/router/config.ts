@@ -18,7 +18,7 @@ const routes = [
                 path: '/login', // 路由路径
                 name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
                 breadcrumbName: '登录页',
-                icon: 'setting', // 菜单图标
+                icon: 'icongerenzhongxin', // 菜单图标
                 component: lazy(() => import('@src/pages/Login')) // 懒加载 路由组件
             },
             {
@@ -31,14 +31,14 @@ const routes = [
                         path: '/home',
                         name: 'home主页',
                         breadcrumbName: '首页',
-                        icon: 'HomeOutlined',
+                        icon: 'iconshouye',
                         component: lazy(() => import('@src/pages/Home/index'))
                     },
                     {
                         path: '/table',
                         name: '测试页',
                         breadcrumbName: '测试页',
-                        icon: 'HomeOutlined',
+                        icon: 'iconxitongguanli',
                         component: lazy(() => import('@src/pages/Table/index'))
                     },
                     {

@@ -81,15 +81,24 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: 8192
+                            limit: 8192,
+                            name: assetsPath('img/[name].[hash:7].[ext]')
                         }
                     }
                 ]
+            },
+            {
+                test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+                loader: 'url-loader',
+                query: {
+                    limit: 10000,
+                    name: assetsPath('fonts/[name].[hash:7].[ext]')
+                }
             }
         ]
     },

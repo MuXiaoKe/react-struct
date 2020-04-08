@@ -1,0 +1,93 @@
+{
+  "id": "1739281",
+  "name": "MNO",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "MNO",
+  "glyphs": [
+    {
+      "icon_id": "13947888",
+      "name": "企业管理",
+      "font_class": "qiyeguanli",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "13930997",
+      "name": "接口管理",
+      "font_class": "jiekouguanli",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "13930937",
+      "name": "个人中心",
+      "font_class": "gerenzhongxin",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "13930911",
+      "name": "系统管理",
+      "font_class": "xitongguanli",
+      "unicode": "e63d",
+      "unicode_decimal": 58941
+    },
+    {
+      "icon_id": "13930876",
+      "name": "账务中心",
+      "font_class": "zhangwuzhongxin",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "13930837",
+      "name": "报表中心",
+      "font_class": "baobiaozhongxin",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
+      "icon_id": "13930770",
+      "name": "告警管理",
+      "font_class": "gaojingguanli",
+      "unicode": "e63a",
+      "unicode_decimal": 58938
+    },
+    {
+      "icon_id": "13930727",
+      "name": "商品中心",
+      "font_class": "shangpinzhongxin",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "13930672",
+      "name": "订单管理",
+      "font_class": "dingdanguanli",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "13930528",
+      "name": "业务办理",
+      "font_class": "yewubanli",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "13930394",
+      "name": "码号管理",
+      "font_class": "mahaoguanli",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "13930341",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    }
+  ]
+}

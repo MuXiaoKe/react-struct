@@ -4,9 +4,10 @@ import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
 import { appStores } from '@src/store';
 import './style.scss';
-import { RadarChartOutlined, HomeOutlined } from '@ant-design/icons';
+import { RadarChartOutlined } from '@ant-design/icons';
+import '@assets/fonts/iconfont.css';
 
-const renderMenuItem = (target) => {
+const renderMenuItem = (target: any) => {
     return target
         .filter((item) => item.path && item.name)
         .map((subMenu) => {
@@ -19,7 +20,8 @@ const renderMenuItem = (target) => {
                         key={subMenu.path}
                         title={
                             <div>
-                                {subMenu.icon ? React.createElement(subMenu.icon) : null}
+                                {/* {subMenu.icon ? React.createElement(subMenu.icon) : null} */}
+                                {subMenu.icon ? <i className={`iconfont ${subMenu.icon}`} /> : null}
                                 <span>{subMenu.name}</span>
                             </div>
                         }
@@ -32,7 +34,7 @@ const renderMenuItem = (target) => {
                 <Menu.Item key={subMenu.path}>
                     <Link to={subMenu.path}>
                         <span>
-                            {subMenu.icon ? React.createElement(HomeOutlined) : null}
+                            {subMenu.icon ? <i className={`iconfont ${subMenu.icon}`} /> : null}
                             <span>{subMenu.name}</span>
                         </span>
                     </Link>

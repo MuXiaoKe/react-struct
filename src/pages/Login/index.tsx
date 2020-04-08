@@ -1,6 +1,6 @@
 import React from 'react';
 // import { useHistory } from 'react-router-dom';
-import { Form, Input, Checkbox, Button } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 const layout = {
     labelCol: { span: 8 },

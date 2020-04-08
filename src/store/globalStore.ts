@@ -22,7 +22,7 @@ export default class GlobalStore implements Iglobal {
 
     @observable public collapsed = false; // 菜单收起展开
 
-    @observable public userInfo: UserInfo;
+    @observable public userInfo: UserInfo = {};
 
     @action
     public toggleCollapsed = () => {

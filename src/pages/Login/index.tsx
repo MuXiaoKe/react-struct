@@ -1,7 +1,7 @@
-import React from 'react';
-// import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+// import { useRequest } from '@umijs/hooks';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
@@ -11,8 +11,57 @@ const tailLayout = {
 };
 
 const LoginPage = () => {
+    const [allowEnter, setAllowEnter] = useState(false); // 是否可登陆
+    const [captchaUrl, setCaptchaUrl] = useState(`./servlet/captchaCode?d=${new Date().getTime()}`);
+    let captchaid = '';
+
+    // const { loading, run } = useRequest(changeUsername, {
+    //     manual: true,
+    //     onSuccess: (result, params) => {
+    //       if (result.success) {
+    //         setState('');
+    //         message.success(`The username was changed to "${params[0]}" !`);
+    //       }
+    //     }
+    //   });
+    // 请求验证码
+    const handleCaptcha = (img) => {
+        // const that = this;
+        if (captchaUrl && img) {
+            const xmlhttp = new XMLHttpRequest();
+            xmlhttp.open('GET', captchaUrl, true);
+            xmlhttp.responseType = 'blob';
+            xmlhttp.onload = () => {
+                if (xmlhttp.status === 200) {
+                    const blob = xmlhttp.response;
+                    if (img) {
+                        img.onload = () => {
+                            window.URL.revokeObjectURL(img.src);
+                        };
+                        img.src = window.URL.createObjectURL(blob);
+                    }
+                    captchaid = xmlhttp.getResponseHeader('captchaid') || '';
+                }
+            };
+            xmlhttp.send();
+        }
+    };
+    const login = async (param) => {
+        try {
+            // await this.api.doLogin(param);
+            // getUserInfo();
+            setAllowEnter(true);
+        } catch (err) {
+            setCaptchaUrl(`./servlet/captchaCode?d=${new Date().getTime()}`);
+            setAllowEnter(false);
+            handleCaptcha(document.getElementById('captchaImg'));
+        }
+    };
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        if (allowEnter) {
+            login({ ...values, captchaid });
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -54,15 +103,13 @@ const LoginPage = () => {
                 <Input
                     placeholder="请输入验证码"
                     id="captcha"
-                    // onChange={() => this.userStore.setEnter()}
+                    onChange={() => setAllowEnter(true)}
                 />
-                {/* <img
+                <img
                     id="captchaImg"
-                    ref={this.userStore.handleCaptcha}
-                    onClick={() =>
-                        this.userStore.handleCaptcha(document.getElementById('captchaImg'))
-                    }
-                /> */}
+                    ref={handleCaptcha}
+                    onClick={() => handleCaptcha(document.getElementById('captchaImg'))}
+                />
             </Form.Item>
 
             <Form.Item {...tailLayout}>

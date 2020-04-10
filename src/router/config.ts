@@ -36,7 +36,7 @@ const routes = [
                     },
                     {
                         path: '/table',
-                        name: '测试页',
+                        name: '测试页111',
                         breadcrumbName: '测试页',
                         icon: 'iconxitongguanli',
                         component: lazy(() => import('@src/pages/Table/index'))

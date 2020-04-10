@@ -10,7 +10,8 @@ module.exports = merge(baseConfig, {
         port: 8000, // 端口
         proxy: {
             '*': {
-                target: 'http://172.16.3.46:3000',
+                // target: 'http://172.16.3.46:3000',
+                target: 'http://172.16.4.112:30008/', // 公司服务
                 secure: false,
                 changeOrigin: true
             }

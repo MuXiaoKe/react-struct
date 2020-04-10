@@ -58,7 +58,7 @@ export default () => {
             dataIndex: 'email'
         },
         {
-            title: 'phone',
+            title: 'phone1',
             dataIndex: 'phone'
         },
         {

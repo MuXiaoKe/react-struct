@@ -4,7 +4,6 @@ import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import LoadingPage from '@src/components/LoadingPage';
 import config from './config';
-
 const renderRoutes = (routes: any[]) => {
     if (!Array.isArray(routes)) {
         return null;
@@ -24,7 +23,6 @@ const renderRoutes = (routes: any[]) => {
                         />
                     );
                 }
-
                 return (
                     <Route
                         key={route.path || index}

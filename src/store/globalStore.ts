@@ -22,7 +22,7 @@ export default class GlobalStore implements Iglobal {
 
     @observable public collapsed = false; // 菜单收起展开
 
-    @observable public userInfo: UserInfo = {};
+    @observable public userInfo: UserInfo | null = null;
 
     @action
     public toggleCollapsed = () => {
@@ -35,13 +35,17 @@ export default class GlobalStore implements Iglobal {
         // Object.entries(data).forEach((item: [any, any]) => {
         //     this[item[0]] = item[1];
         // });
+        console.log(data);
         for (let [key, value] of Object.entries(data)) {
             this[key] = value;
         }
     }
-
+    @action
+    public setUserInfo = (info) => {
+        this.userInfo = info;
+    };
     // @action
-    // getUserInfo = async (cache = true): Promise<UserInfo> => {
+    // getUserInfo = async (cache: boolean = true): Promise<UserInfo> => {
     //     if (!cache || !this.userInfo) {
     //         try {
     //             runInAction(() => {

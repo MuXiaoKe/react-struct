@@ -83,7 +83,6 @@ instance.interceptors.response.use(
         return Promise.resolve(resFormat(rdata));
     },
     (error) => {
-        console.log('3456');
         const _err = {
             msg: error.message || '网络故障',
             type: /^timeout of/.test(error.message)

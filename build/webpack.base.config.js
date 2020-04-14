@@ -116,7 +116,9 @@ module.exports = {
             '@components': `${srcDir}/components`, // path.join(__dirname, "../src/components"),
             '@assets': `${srcDir}/assets`, // path.join(__dirname, "../src/images"),
             '@src': srcDir,
-            '@pages': `${srcDir}/pages`
+            '@pages': `${srcDir}/pages`,
+            '@services': `${srcDir}/services`,
+            '@store': `${srcDir}/store`
         }
     }
 };

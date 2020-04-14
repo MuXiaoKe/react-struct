@@ -18,6 +18,7 @@
             "@store/*": ["store/*"],
             "@utils/*": ["utils/*"],
             "@pages/*": ["pages/*"],
+            "@services/*":["services/*"]
         },
         "jsx": "react",
         "alwaysStrict": true,

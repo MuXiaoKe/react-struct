@@ -4,7 +4,7 @@ import '../../services/config';
 import Store from './store';
 import { appStores } from '@src/store';
 import { Table } from 'antd';
-import useSWR from 'swr'; // , { mutate }
+// import useSWR from 'swr'; // , { mutate }
 
 export default observer(function IndexPage() {
     // useContext 订阅mobx数据
@@ -45,12 +45,9 @@ export default observer(function IndexPage() {
         }
     ];
 
-    const { data: list, error } = useSWR('api/getList');
-    // const res = list?.data;
-    // console.log(list);
-    // useSWR('api/addList', undefined);
-    if (error) return <div>failed to load</div>;
-    if (!list) return <div>loading...</div>;
+    // const { data: list, error } = useSWR('api/getList');
+    // if (error) return <div>failed to load</div>;
+    // if (!list) return <div>loading...</div>;
     return (
         <div>
             <div>{pageTitle}</div>
@@ -62,9 +59,9 @@ export default observer(function IndexPage() {
             >
                 click
             </button>
-            {list.map((item: { _id: number; content: string }) => (
+            {/* {list.map((item: { _id: number; content: string }) => (
                 <span key={item._id}>{item.content}</span>
-            ))}
+            ))} */}
             <Table dataSource={dataSource} columns={columns} />
         </div>
     );

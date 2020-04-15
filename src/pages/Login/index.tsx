@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { useLocation, Redirect } from 'react-router-dom';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import { Form, Input, Button, message, Spin } from 'antd';
 import { observer } from 'mobx-react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -7,17 +7,6 @@ import { useRequest } from '@umijs/hooks';
 import { appStores } from '@store/index';
 import * as api from '@services/index';
 import './index.scss';
-interface UserInfo {
-    userName?: string;
-    authCodes?: any[];
-    acconutId?: string;
-    loginName?: string;
-    deptId?: string;
-    deptName?: string;
-    roleName?: string;
-    roleId?: string;
-}
-
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
@@ -25,21 +14,41 @@ const layout = {
 const tailLayout = {
     wrapperCol: { offset: 8, span: 16 }
 };
-const defaultCaptchaUrl = `./servlet/captchaCode?d=${new Date().getTime()}`;
+const defaultCaptchaUrl = () => `./servlet/captchaCode?d=${new Date().getTime()}`;
 const LoginPage = (props) => {
-    const [allowEnter, setAllowEnter] = useState(false); // 是否可登陆
-    const [captchaUrl, setCaptchaUrl] = useState(defaultCaptchaUrl);
+    const [captchaUrl, setCaptchaUrl] = useState(defaultCaptchaUrl());
+    const [captchaid, setCaptchaId] = useState('');
+    const history = useHistory();
     const { globalStore } = appStores();
-    let captchaid = '';
+    let ignore = false;
 
-    const { loading, run } = useRequest(api.login, {
+    // 登录
+    const doLogin = useRequest(api.login, {
         manual: true,
         onSuccess: (result, params) => {
-            if (result.success) {
-                message.success('登陆成功');
-            }
+            message.success('登陆成功');
+            // getUserInfo();
+            console.log(history);
+            history.push('./');
+        },
+        onError: (error, params) => {
+            setCaptchaUrl(defaultCaptchaUrl());
+            handleCaptcha(document.getElementById('captchaImg'));
         }
     });
+    // 获取用户信息
+    // const _userInfo = useRequest(api.getUserInfo, {
+    //     manual: true,
+    //     onSuccess: (result, params) => {
+    //         message.success('获取用户信息成功');
+    //         console.log(result);
+    //         globalStore.setUserInfo(result);
+    //     },
+    //     onError: (error, params) => {
+    //         // 用于解决无线跳转的问题
+    //         globalStore.setUserInfo(null);
+    //     }
+    // });
     // 请求验证码
     const handleCaptcha = useCallback(
         (img) => {
@@ -57,7 +66,10 @@ const LoginPage = (props) => {
                             img.src = window.URL.createObjectURL(blob);
                         }
                         // 赋值 captchaid
-                        captchaid = xmlhttp.getResponseHeader('captchaid') || '';
+                        // captchaid = xmlhttp.getResponseHeader('captchaid') || '';
+                        // setSate会导致重渲染， 组件卸载 时可判断 不进行 setState；不然会循环，内存溢出
+                        !ignore && setCaptchaId(xmlhttp.getResponseHeader('captchaid') || '');
+                        console.log(captchaid);
                     }
                 };
                 xmlhttp.send();
@@ -65,55 +77,39 @@ const LoginPage = (props) => {
         },
         [captchaUrl]
     );
-    const getUserInfo = async (cache = true) => {
-        if (!cache || !globalStore.userInfo) {
-            try {
-                const res: Promise<UserInfo> = await api.getUserInfo({});
-                if (!res) {
-                    setCaptchaUrl(defaultCaptchaUrl); // 更新验证码
-                }
-
-                globalStore.setUserInfo(res);
-            } catch {
-                // 用于解决无线跳转的问题
-                globalStore.setUserInfo(null);
-            }
-        }
-    };
-    const login = async (param) => {
-        try {
-            await run(param);
-            getUserInfo();
-            setAllowEnter(true);
-        } catch (err) {
-            setCaptchaUrl(`./servlet/captchaCode?d=${new Date().getTime()}`);
-            setAllowEnter(false);
-            handleCaptcha(document.getElementById('captchaImg'));
-        }
-    };
+    // 获取用户信息
+    // const getUserInfo = (cache = true) => {
+    //     const { userInfo } = globalStore;
+    //     if (!cache || !userInfo) {
+    //         _userInfo.run({});
+    //     }
+    // };
+    // 登录提交
     const onFinish = (values: any) => {
-        console.log('Success:', values);
-        if (allowEnter) {
-            login({ ...values, captchaid });
-        }
+        doLogin.run({ ...values, captchaid });
+        console.log(doLogin);
     };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
-    // useEffect(() => {
-    //     // 有用户信息跳转到首页
-    //     if (globalStore.userInfo) {
-    //         useHistory().goBack();
-    //     }
-    // }, [globalStore.userInfo]);
-    console.log(globalStore.userInfo);
+    useEffect(() => {
+        // 有用户信息跳转
+        // getUserInfo(false);
+        return () => {
+            ignore = true;
+        };
+    }, []);
+    // console.log(globalStore.userInfo?.userName);
     // 有用户信息跳转到首页
     if (globalStore.userInfo) {
         return <Redirect to={useLocation()?.state?.from || './'} />;
     }
+    // if (_userInfo.loading) {
+    //     return <LoadingPage />;
+    // }
     return (
-        <Spin spinning={loading}>
+        <Spin spinning={doLogin.loading}>
             <div className="login-wrap">
                 <Form
                     {...layout}
@@ -150,11 +146,7 @@ const LoginPage = (props) => {
                             name="captcha"
                             rules={[{ required: true, message: 'Please输入验证码!' }]}
                         >
-                            <Input
-                                placeholder="请输入验证码"
-                                id="captcha"
-                                onChange={() => setAllowEnter(true)}
-                            />
+                            <Input placeholder="请输入验证码" id="captcha" />
                         </Form.Item>
 
                         <img

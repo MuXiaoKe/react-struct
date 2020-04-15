@@ -44,7 +44,7 @@ instance.interceptors.response.use(
                 showAuthError = false;
                 location.href = '#/login';
             }, 300);
-            return Promise.resolve(response);
+            return Promise.resolve(null);
         }
         // if (response.data.errorCode === 401) {
         //     return Promise.reject({

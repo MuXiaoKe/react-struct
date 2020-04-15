@@ -6,19 +6,19 @@ import 'antd/dist/antd.css';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 
-import { SWRConfig } from 'swr'; // swr请求库得全局配置
-import request from './utils/http';
+// import { SWRConfig } from 'swr'; // swr请求库得全局配置
+// import request from './utils/http';
 import AppRouter from './router';
 
 const App = () => (
     <ConfigProvider locale={zhCN}>
-        <SWRConfig
+        {/* <SWRConfig
             value={{
                 fetcher: request
             }}
-        >
-            <AppRouter />
-        </SWRConfig>
+        > */}
+        <AppRouter />
+        {/* </SWRConfig> */}
     </ConfigProvider>
 );
 ReactDOM.render(<App />, document.getElementById('app') as HTMLElement);

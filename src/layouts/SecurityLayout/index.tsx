@@ -1,24 +1,28 @@
 import React, { useEffect } from 'react';
 import { stringify } from 'querystring';
 import { appStores } from '@store/index';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useRouteMatch } from 'react-router-dom';
 import { useRequest } from '@umijs/hooks';
 import * as api from '@services/index';
 import { message } from 'antd';
 import LoadingPage from '@src/components/LoadingPage';
 
 const SecurityLayout = ({ children }) => {
+    let hasUserInfo = true;
+    let match = useRouteMatch('/login');
     // 获取用户信息
     const _userInfo = useRequest(api.getUserInfo, {
         manual: true,
         onSuccess: (result, params) => {
             message.success('获取用户信息成功');
             console.log(result);
+            hasUserInfo = true;
             globalStore.setUserInfo(result);
         },
         onError: (error, params) => {
             // 用于解决无线跳转的问题
             globalStore.setUserInfo(null);
+            hasUserInfo = false;
         }
     });
     useEffect(() => {
@@ -37,9 +41,9 @@ const SecurityLayout = ({ children }) => {
         redirect: window.location.href
     });
 
-    console.log(children, queryString);
-
-    if (!globalStore.userInfo) {
+    console.log(children, queryString, globalStore.userInfo);
+    // 没有返回用户信息则代表没有登录态，跳转到login页
+    if (!hasUserInfo && !globalStore.userInfo && !match) {
         return <Redirect to={`/login?${queryString}`} />;
     }
     if (_userInfo.loading) {

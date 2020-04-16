@@ -36,16 +36,22 @@ const routes = [
         component: BlankLayout, // 空白页布局
         breadcrumbName: '',
         children: [
-            {
-                path: '/login', // 路由路径
-                name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
-                exact: true,
-                component: lazy(() => import('@src/pages/Login')) // 懒加载 路由组件
-            },
+            // {
+            //     path: '/login', // 路由路径
+            //     name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
+            //     exact: true,
+            //     component: lazy(() => import('@src/pages/Login')) // 懒加载 路由组件
+            // },
             {
                 path: '/',
                 component: SecurityLayout,
                 children: [
+                    {
+                        path: '/login', // 路由路径
+                        name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
+                        exact: true,
+                        component: lazy(() => import('@src/pages/Login')) // 懒加载 路由组件
+                    },
                     // 子菜单路由
                     {
                         path: '/',

@@ -7,6 +7,7 @@ import { useRequest } from '@umijs/hooks';
 import { appStores } from '@store/index';
 import * as api from '@services/index';
 import './index.scss';
+import { useForm } from 'antd/lib/form/util';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
@@ -89,9 +90,10 @@ const LoginPage = (props) => {
         doLogin.run({ ...values, captchaid });
         console.log(doLogin);
     };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+    const [form] = useForm();
+    const onFinishFailed = ({ values, errorFields, outOfDate }) => {
+        form.scrollToField(errorFields[0].name);
+        console.log('Failed:', errorFields);
     };
     useEffect(() => {
         // 有用户信息跳转
@@ -117,6 +119,7 @@ const LoginPage = (props) => {
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
+                    form={form}
                 >
                     <Form.Item
                         label="Username"

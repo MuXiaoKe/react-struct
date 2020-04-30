@@ -1,24 +1,36 @@
 import React from 'react';
-import { Layout, Dropdown, Menu, Row, Col } from 'antd';
+import { Layout, Dropdown, Menu, Row, Col, Button, message } from 'antd';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { appStores } from '@src/store';
 import './style.scss';
+import { useRequest } from '@umijs/hooks';
+import * as api from '@services/index';
 // import { CollapsedContext } from '../BasicLayout';
-const menu = (
-    <Menu>
-        <Menu.Item key="0">个人信息</Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="1">
-            <Link to="/login">&nbsp; 退出登录</Link>
-        </Menu.Item>
-    </Menu>
-);
 
 const MainHeader: React.SFC = () => {
     // const { state, dispatch } = React.useContext(CollapsedContext);
     const { globalStore } = appStores();
+    const history = useHistory();
+    // 登出
+    const doLogin = useRequest(api.logout, {
+        manual: true,
+        onSuccess: (result, params) => {
+            message.success('登出');
+            history.push('./login');
+        },
+        onError: (error, params) => {}
+    });
+    const menu = (
+        <Menu>
+            <Menu.Item key="0">个人信息</Menu.Item>
+            <Menu.Divider />
+            <Menu.Item key="1">
+                <Button onClick={doLogin.run}>退出登录</Button>
+            </Menu.Item>
+        </Menu>
+    );
     return (
         <Layout.Header className="main-header">
             <Row style={{ paddingRight: 20 }}>

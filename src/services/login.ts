@@ -7,6 +7,6 @@ export function login(data): Promise<any> {
     return http.post('/api/login', data);
 }
 
-export function logOut(data): Promise<any> {
+export function logout(data): Promise<any> {
     return http.post('/api/logout', data);
 }

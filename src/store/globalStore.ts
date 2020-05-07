@@ -22,6 +22,8 @@ export default class GlobalStore implements Iglobal {
 
     @observable public collapsed = false; // 菜单收起展开
 
+    @observable public loginState = false; // 登录状态 默认没有登录
+
     @observable public userInfo: UserInfo | null = null;
 
     @action
@@ -44,6 +46,11 @@ export default class GlobalStore implements Iglobal {
     public setUserInfo = (info) => {
         this.userInfo = info;
     };
+    @action
+    public setLoginState = (state: boolean) => {
+        this.loginState = state;
+    };
+
     // @action
     // getUserInfo = async (cache: boolean = true): Promise<UserInfo> => {
     //     if (!cache || !this.userInfo) {

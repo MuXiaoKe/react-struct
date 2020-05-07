@@ -29,7 +29,7 @@ const LoginPage = (props) => {
         onSuccess: (result, params) => {
             message.success('登陆成功');
             // getUserInfo();
-            console.log(history);
+            globalStore.setLoginState(true);
             history.push('./');
         },
         onError: (error, params) => {
@@ -70,7 +70,6 @@ const LoginPage = (props) => {
                         // captchaid = xmlhttp.getResponseHeader('captchaid') || '';
                         // setSate会导致重渲染， 组件卸载 时可判断 不进行 setState；不然会循环，内存溢出
                         !ignore && setCaptchaId(xmlhttp.getResponseHeader('captchaid') || '');
-                        console.log(captchaid);
                     }
                 };
                 xmlhttp.send();
@@ -88,7 +87,7 @@ const LoginPage = (props) => {
     // 登录提交
     const onFinish = (values: any) => {
         doLogin.run({ ...values, captchaid });
-        console.log(doLogin);
+        // console.log(doLogin);
     };
     const [form] = useForm();
     const onFinishFailed = ({ values, errorFields, outOfDate }) => {
@@ -96,15 +95,16 @@ const LoginPage = (props) => {
         console.log('Failed:', errorFields);
     };
     useEffect(() => {
-        // 有用户信息跳转
-        // getUserInfo(false);
+        console.log('login effect');
+        globalStore.setLoginState(false);
+        globalStore.setUserInfo(null);
         return () => {
             ignore = true;
         };
     }, []);
     // console.log(globalStore.userInfo?.userName);
     // 有用户信息跳转到首页
-    if (globalStore.userInfo) {
+    if (globalStore.loginState && globalStore.userInfo) {
         return <Redirect to={useLocation()?.state?.from || './'} />;
     }
     // if (_userInfo.loading) {

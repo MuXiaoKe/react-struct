@@ -16,6 +16,13 @@ export const breadcrumbRoutes = [
         component: lazy(() => import('@src/pages/Home/index'))
     },
     {
+        path: '/404',
+        name: '404',
+        exact: true,
+        breadcrumbName: '错误页',
+        component: lazy(() => import('@src/pages/Exception/404'))
+    },
+    {
         path: '/table',
         name: '测试页111',
         breadcrumbName: '测试页',
@@ -23,11 +30,19 @@ export const breadcrumbRoutes = [
         component: lazy(() => import('@src/pages/Table/index'))
     },
     {
-        path: '/404',
-        name: '404',
-        exact: true,
-        breadcrumbName: '错误页',
-        component: lazy(() => import('@src/pages/Exception/404'))
+        path: '/decive',
+        name: 'deciveManage',
+        breadcrumbName: '设备运维',
+        icon: 'iconxitongguanli',
+        children: [
+            {
+                path: '/decive/product',
+                name: 'product',
+                breadcrumbName: '产品',
+                icon: 'iconxitongguanli',
+                component: lazy(() => import('@src/pages/deciveManage/product'))
+            }
+        ]
     }
 ];
 const routes = [

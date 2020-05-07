@@ -12,7 +12,8 @@ function getRoutes(path: string): any[] {
     const url = path?.replace('#', '');
     const newRouter: object[] = [];
     const hasIndex = (obj): boolean => {
-        const curPath = '/' + obj.path.split('/:')[0];
+        const curPath = obj.path.split('/:')[0]; // /: 可能是为了防止参数进来
+        console.log(url, curPath);
         return url.includes(curPath); // TODO incluedes会有bug，如果url有部分字段和path相同会返回true
     };
     const pushArray = (list) => {
@@ -31,6 +32,11 @@ function getRoutes(path: string): any[] {
 const Zbreadcrumb = () => {
     let location = useLocation();
     const _breadcrumbRoutes = getRoutes(location.pathname);
-    return <Breadcrumb itemRender={itemRender} routes={_breadcrumbRoutes} />;
+    // 去掉router中的children，childern被Breadcrumb解析成下拉列表
+    const router = JSON.parse(JSON.stringify(_breadcrumbRoutes));
+    router.forEach((item) => {
+        delete item.children;
+    });
+    return <Breadcrumb itemRender={itemRender} routes={router} />;
 };
 export default Zbreadcrumb;

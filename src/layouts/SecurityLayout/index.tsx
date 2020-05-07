@@ -6,6 +6,7 @@ import { useRequest } from '@umijs/hooks';
 import * as api from '@services/index';
 import { message } from 'antd';
 import LoadingPage from '@src/components/LoadingPage';
+import { reaction } from 'mobx';
 
 const SecurityLayout = ({ children }) => {
     let hasUserInfo = true;
@@ -25,6 +26,9 @@ const SecurityLayout = ({ children }) => {
             hasUserInfo = false;
         }
     });
+
+    const { globalStore } = appStores(); // 全局store
+
     useEffect(() => {
         // 获取用户信息
         const getUserInfo = (cache = true) => {
@@ -34,14 +38,23 @@ const SecurityLayout = ({ children }) => {
             }
         };
         getUserInfo(false);
+        // loginstate变化时 执行getuserinfo
+        reaction(
+            () => globalStore.loginState,
+            () => {
+                console.log('changed');
+                if (!globalStore.userInfo) {
+                    getUserInfo(false);
+                }
+            }
+        );
     }, []);
-    const { globalStore } = appStores();
 
     const queryString = stringify({
         redirect: window.location.href
     });
 
-    console.log(children, queryString, globalStore.userInfo);
+    // console.log(children, queryString, globalStore.userInfo);
     // 没有返回用户信息则代表没有登录态，跳转到login页
     if (!hasUserInfo && !globalStore.userInfo && !match) {
         return <Redirect to={`/login?${queryString}`} />;

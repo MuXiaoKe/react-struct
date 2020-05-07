@@ -11,10 +11,7 @@ const renderMenuItem = (target: any) => {
     return target
         .filter((item) => item.path && item.name)
         .map((subMenu) => {
-            if (
-                subMenu.childRoutes &&
-                !!subMenu.childRoutes.find((child) => child.path && child.name)
-            ) {
+            if (subMenu.children && !!subMenu.children.find((child) => child.path && child.name)) {
                 return (
                     <Menu.SubMenu
                         key={subMenu.path}
@@ -26,7 +23,7 @@ const renderMenuItem = (target: any) => {
                             </div>
                         }
                     >
-                        {renderMenuItem(subMenu.childRoutes)}
+                        {renderMenuItem(subMenu.children)}
                     </Menu.SubMenu>
                 );
             }
@@ -52,10 +49,9 @@ const SiderMenu = ({ routes }) => {
     useEffect(() => {
         const list = pathname.split('/').splice(1);
         setOpenKeys(list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`));
-    }, []);
+    }, [pathname]);
 
     const getSelectedKeys = useMemo(() => {
-        console.log('getSelectedKeys');
         const list = pathname.split('/').splice(1);
         return list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`);
     }, [pathname]);
@@ -81,7 +77,7 @@ const SiderMenu = ({ routes }) => {
             </Link>
             <Menu
                 mode="inline"
-                theme="dark"
+                theme="light"
                 style={{ paddingLeft: 0, marginBottom: 0 }}
                 className="main-menu"
                 openKeys={openKeys}

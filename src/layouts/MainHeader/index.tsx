@@ -27,7 +27,13 @@ const MainHeader: React.SFC = () => {
             <Menu.Item key="0">个人信息</Menu.Item>
             <Menu.Divider />
             <Menu.Item key="1">
-                <Button onClick={doLogin.run}>退出登录</Button>
+                <Button
+                    onClick={() => {
+                        doLogin.run({});
+                    }}
+                >
+                    退出登录
+                </Button>
             </Menu.Item>
         </Menu>
     );

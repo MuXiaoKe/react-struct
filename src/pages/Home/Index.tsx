@@ -51,7 +51,7 @@ export default observer(function IndexPage() {
     return (
         <div>
             <div>{pageTitle}</div>
-            <div>{globalStore.userInfo.loginName}</div>
+            <div>{globalStore?.userInfo?.loginName || '-'}</div>
             <button
                 onClick={() => {
                     setTitle('zzzzz');

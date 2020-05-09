@@ -34,6 +34,9 @@ export const breadcrumbRoutes = [
         name: 'deciveManage',
         breadcrumbName: '设备运维',
         icon: 'iconxitongguanli',
+        // exact: true,
+        // redirect: '/decive/product',
+        // component: lazy(() => import('@src/pages/deciveManage/product')),
         children: [
             {
                 path: '/decive/product',

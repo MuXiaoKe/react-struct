@@ -3,8 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
 import { appStores } from '@src/store';
-import './style.scss';
+
 import { RadarChartOutlined } from '@ant-design/icons';
+
+import './style.scss';
 import '@assets/fonts/iconfont.css';
 
 const renderMenuItem = (target: any) => {

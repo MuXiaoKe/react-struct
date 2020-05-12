@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -5,6 +6,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const baseConfig = require("./webpack.base.config");
+
+const assetsPath = function(_path) {
+    return path.posix.join('static', _path);
+};
+// const devMode = process.env.NODE_ENV !== 'production';
 module.exports = merge(baseConfig,{
     devtool: 'none',
     mode: 'production',
@@ -16,8 +22,10 @@ module.exports = merge(baseConfig,{
         //     template: path.join(__dirname, '../public/index.html')
         // }),
         new MiniCssExtractPlugin({ // 压缩css
-            filename: "[name].[contenthash].css",
-            chunkFilename: "[id].[contenthash].css"
+            // filename: "[name].[contenthash].css",
+            // chunkFilename: "[id].[contenthash].css"
+            filename: assetsPath('css/[name].[hash].css'),
+            chunkFilename: assetsPath('css/[name].[id].[hash].css')
         }),
         new OptimizeCssAssetsPlugin(),
         new BundleAnalyzerPlugin(

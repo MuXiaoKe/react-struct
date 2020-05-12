@@ -4,6 +4,9 @@ import SiderMenu from '../SiderMenu';
 import MainHeader from '../MainHeader';
 // import MainFooter from "../MainFooter";
 import ZBreadcrumb from '../Breadcrumb';
+
+import { breadcrumbRoutes } from '@src/router/config.ts';
+
 import './style.scss';
 // interface Istate {
 //     collapsed?: boolean;
@@ -33,7 +36,8 @@ const BasicLayout: FC<{ route: any; children: React.ReactNode }> = ({ route, chi
     return (
         // <CollapsedContext.Provider value={{ state, dispatch }}>
         <Layout className="main-layout">
-            <SiderMenu routes={route.children} />
+            {/* <SiderMenu routes={route.children} /> */}
+            <SiderMenu routes={breadcrumbRoutes} />
             {/* 左侧菜单导航 */}
             <Layout className="main-layout-right">
                 <MainHeader />

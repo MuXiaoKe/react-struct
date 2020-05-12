@@ -1,15 +1,16 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const postcssPresetEnv = require("postcss-preset-env");
 
 const srcDir = path.join(__dirname, '../src');
 const devMode = process.env.NODE_ENV !== 'production';
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NODE_ENV;
 console.log(APP_ENV);
 // 静态资源访问域名（CDN）
-const STATICDOMAIN = APP_ENV === 'production' ? '.' : '';
+// const STATICDOMAIN = APP_ENV === 'production' ? '.' : ''; // 之前的环境是qa
+const STATICDOMAIN = '';
 
 const config = {
     index: path.resolve(__dirname, './../index.html'),
@@ -17,7 +18,7 @@ const config = {
     assetsPublicPath: APP_ENV === 'development' ? '/' : `${STATICDOMAIN}/dist/${APP_ENV}/`,
     assetsSubDirectory: 'static',
     // 正式环境接入sentry需要sourceMap
-    sourceMap: APP_ENV !== 'qa',
+    sourceMap: APP_ENV !== 'production',
     extractCss: APP_ENV !== 'development',
     // Run the build command with an extra argument to
     // View the bundle analyzer report after build finishes:
@@ -63,17 +64,17 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader', 'postcss-loader']
+                use: [config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader']
             },
             {
                 test: /\.scss$/,
                 include: [path.join(__dirname, '../', 'src')],
-                use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader']
+                use: [config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
             },
             {
                 test: /\.less$/,
                 use: [
-                    'style-loader', 'css-loader',
+                    config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader',
                     {
                         loader: 'less-loader',
                         options: { javascriptEnabled: true }
@@ -118,7 +119,8 @@ module.exports = {
             '@src': srcDir,
             '@pages': `${srcDir}/pages`,
             '@services': `${srcDir}/services`,
-            '@store': `${srcDir}/store`
+            '@store': `${srcDir}/store`,
+            '@utils': `${srcDir}/utils`,
         }
     }
 };

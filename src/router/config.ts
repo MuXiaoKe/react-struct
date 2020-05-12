@@ -4,8 +4,6 @@ import BasicLayout from '@src/layouts/BasicLayout';
 import BlankLayout from '@src/layouts/BlankLayout';
 import SecurityLayout from '@src/layouts/SecurityLayout';
 
-// import TodoList from '../pages/todoList/TodoList';
-// import MainPage from '../pages/index/Main';
 // import { BASE_URL } from '../constants/index';
 export const breadcrumbRoutes = [
     {
@@ -34,9 +32,7 @@ export const breadcrumbRoutes = [
         name: 'deciveManage',
         breadcrumbName: '设备运维',
         icon: 'iconxitongguanli',
-        // exact: true,
-        // redirect: '/decive/product',
-        // component: lazy(() => import('@src/pages/deciveManage/product')),
+        needRedirect: true,
         children: [
             {
                 path: '/decive/product',
@@ -54,12 +50,6 @@ const routes = [
         component: BlankLayout, // 空白页布局
         breadcrumbName: '',
         children: [
-            // {
-            //     path: '/login', // 路由路径
-            //     name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
-            //     exact: true,
-            //     component: lazy(() => import('@src/pages/Login')) // 懒加载 路由组件
-            // },
             {
                 path: '/',
                 component: SecurityLayout,
@@ -73,7 +63,6 @@ const routes = [
                     // 子菜单路由
                     {
                         path: '/',
-                        // exact: true,
                         component: BasicLayout, // 基本布局
                         breadcrumbName: '',
                         children: [

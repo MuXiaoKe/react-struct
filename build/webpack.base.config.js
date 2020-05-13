@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const postcssPresetEnv = require("postcss-preset-env");
 
 const srcDir = path.join(__dirname, '../src');
@@ -64,17 +64,27 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader']
+                use: [
+                    config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
+                    'postcss-loader'
+                ]
             },
             {
                 test: /\.scss$/,
                 include: [path.join(__dirname, '../', 'src')],
-                use: [config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader', 'sass-loader']
+                use: [
+                    config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.less$/,
                 use: [
-                    config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader',
+                    config.extractCss ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
                     {
                         loader: 'less-loader',
                         options: { javascriptEnabled: true }
@@ -107,7 +117,16 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: path.join(__dirname, '../public/index.html')
+            template: path.join(__dirname, '../public/index.html'),
+            inject: true, // body 底部插入script
+            favicon: 'public/favicon.ico',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+            chunksSortMode: 'dependency'
         })
     ],
     // 别名配置
@@ -120,7 +139,7 @@ module.exports = {
             '@pages': `${srcDir}/pages`,
             '@services': `${srcDir}/services`,
             '@store': `${srcDir}/store`,
-            '@utils': `${srcDir}/utils`,
+            '@utils': `${srcDir}/utils`
         }
     }
 };

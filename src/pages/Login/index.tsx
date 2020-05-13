@@ -122,25 +122,25 @@ const LoginPage = (props) => {
                     form={form}
                 >
                     <Form.Item
-                        label="Username"
+                        label="用户名"
                         name="username"
                         rules={[{ required: true, message: 'Please input your username!' }]}
                     >
                         <Input
                             prefix={<UserOutlined className="site-form-item-icon" />}
-                            placeholder="Username"
+                            placeholder="用户名"
                         />
                     </Form.Item>
 
                     <Form.Item
-                        label="Password"
+                        label="密码"
                         name="password"
                         rules={[{ required: true, message: 'Please input your password!' }]}
                     >
                         <Input
                             prefix={<LockOutlined className="site-form-item-icon" />}
                             type="password"
-                            placeholder="Password"
+                            placeholder="密码"
                         />
                     </Form.Item>
 

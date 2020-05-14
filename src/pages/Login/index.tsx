@@ -9,11 +9,11 @@ import * as api from '@services/index';
 import './index.scss';
 import { useForm } from 'antd/lib/form/util';
 const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 }
+    labelCol: { span: 4 },
+    wrapperCol: { span: 20 }
 };
 const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 }
+    wrapperCol: { offset: 4, span: 20 }
 };
 const defaultCaptchaUrl = () => `./servlet/captchaCode?d=${new Date().getTime()}`;
 const LoginPage = (props) => {
@@ -37,19 +37,6 @@ const LoginPage = (props) => {
             handleCaptcha(document.getElementById('captchaImg'));
         }
     });
-    // 获取用户信息
-    // const _userInfo = useRequest(api.getUserInfo, {
-    //     manual: true,
-    //     onSuccess: (result, params) => {
-    //         message.success('获取用户信息成功');
-    //         console.log(result);
-    //         globalStore.setUserInfo(result);
-    //     },
-    //     onError: (error, params) => {
-    //         // 用于解决无线跳转的问题
-    //         globalStore.setUserInfo(null);
-    //     }
-    // });
     // 请求验证码
     const handleCaptcha = useCallback(
         (img) => {

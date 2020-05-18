@@ -1,5 +1,6 @@
 import deepEqual from 'fast-deep-equal';
 type Key = any;
+type TParam = any;
 class Cache {
     private cache: Map<string, any>;
     private param: Map<string, any>;
@@ -36,7 +37,7 @@ class Cache {
     public delete(key: Key) {
         this.cache.delete(key);
     }
-    public trimParam(_param) {
+    public trimParam(_param: TParam): TParam {
         // 为空或者为undefined的参数删除，否则会影响比较
         for (const o in _param) {
             if (_param[o] === undefined || _param[o] === null || _param[o] === '') {
@@ -46,7 +47,7 @@ class Cache {
         return _param;
     }
     // 设置参数
-    public setParam(key, param) {
+    public setParam(key: Key, param: TParam) {
         const _param = JSON.parse(JSON.stringify(param));
         // 为空或者为undefined的参数删除，否则会影响比较
         this.trimParam(_param);
@@ -54,7 +55,7 @@ class Cache {
         this.param.set(key, _param);
     }
     // 比较参数对象
-    public compare(key, param) {
+    public compare(key: Key, param: TParam) {
         const _param = JSON.parse(JSON.stringify(param));
         // 为空或者为undefined的参数删除，否则会影响比较
         this.trimParam(_param);

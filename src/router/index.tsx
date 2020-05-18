@@ -4,10 +4,13 @@ import _ from 'lodash';
 import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import LoadingPage from '@src/components/LoadingPage';
-import routes from './config';
+import routes, { IRoute, TRoutes } from './config';
+
+import NoMatch from '@src/pages/Exception/404';
 // import { appStores } from '@store/index';
 // const { globalStore } = appStores();
 // const { userInfo } = globalStore;
+
 const renderRoutes = (routes: any[]) => {
     if (!Array.isArray(routes)) {
         return null;
@@ -51,19 +54,20 @@ const renderRoutes = (routes: any[]) => {
                     />
                 );
             })}
+            <Route component={NoMatch} />
         </Switch>
     );
 };
 // 路由的格式化
-const buildRouter = (): any[] => {
+const buildRouter = (): TRoutes => {
     // let { authCodes } = userInfo;
     // authCodes = authCodes.slice() || [];
     const _routes = _.cloneDeep(routes);
     // const newRouter: object[] = [];
-    const hasChid = (obj): boolean => {
-        return obj.hasOwnProperty('children') && obj.children.length > 0;
-    };
-    const hasRedirect = (obj): boolean => {
+    // const hasChild = (obj: IRoute): boolean => {
+    //     return obj.hasOwnProperty('children') && obj?.children?.length > 0;
+    // };
+    const hasRedirect = (obj: IRoute): boolean => {
         return obj.hasOwnProperty('needRedirect') && obj.needRedirect === true;
     };
     // 没有authcode 或者 不等于-1
@@ -71,12 +75,12 @@ const buildRouter = (): any[] => {
     //     return !obj.hasOwnProperty('authCode') || authCodes.indexOf(String(obj.authCode)) !== -1;
     // };
     // 遍历路由列表
-    const pushArray = (list) => {
+    const pushArray = (list: TRoutes) => {
         list.forEach((item) => {
             // item router
             const router = { ...item };
             // 有子路由
-            if (hasChid(router)) {
+            if (router.children) {
                 // 有子路由的时候其本身的地址 会重定向到第一个子路由
                 // router.redirect = `${router.children[0].path}`;
                 // 有跳转
@@ -101,6 +105,7 @@ const buildRouter = (): any[] => {
 };
 const AppRouter = () => {
     const _routes = buildRouter();
+    console.log(_routes);
     return <Router>{renderRoutes(_routes)}</Router>;
 };
 

@@ -3,7 +3,18 @@ import { lazy } from 'react';
 import BasicLayout from '@src/layouts/BasicLayout';
 import BlankLayout from '@src/layouts/BlankLayout';
 import SecurityLayout from '@src/layouts/SecurityLayout';
-
+export interface IRoute {
+    path: string;
+    name?: string;
+    breadcrumbName?: string;
+    icon?: string;
+    component?: React.ReactNode;
+    needRedirect?: boolean;
+    redirect?: string;
+    exact?: boolean;
+    children?: TRoutes;
+}
+export type TRoutes = IRoute[];
 // import { BASE_URL } from '../constants/index';
 export const breadcrumbRoutes = [
     {
@@ -12,13 +23,6 @@ export const breadcrumbRoutes = [
         breadcrumbName: '首页',
         icon: 'iconshouye',
         component: lazy(() => import('@src/pages/Home/index'))
-    },
-    {
-        path: '/404',
-        name: '404',
-        exact: true,
-        breadcrumbName: '错误页',
-        component: lazy(() => import('@src/pages/Exception/404'))
     },
     {
         path: '/table',
@@ -39,7 +43,7 @@ export const breadcrumbRoutes = [
                 name: 'product',
                 breadcrumbName: '产品',
                 icon: 'iconxitongguanli',
-                component: lazy(() => import('@src/pages/deciveManage/product'))
+                component: lazy(() => import('@src/pages/DeciveManage/Product'))
             }
         ]
     }
@@ -58,7 +62,13 @@ const routes = [
                         path: '/login', // 路由路径
                         name: '登录页', // 菜单名称 (不设置,则不展示在菜单栏中）
                         exact: true,
-                        component: lazy(() => import('@src/pages/Login')) // 懒加载 路由组件
+                        component: lazy(() => import('@src/pages/User/Login')) // 懒加载 路由组件
+                    },
+                    {
+                        path: '/register', // 路由路径
+                        name: '注册页',
+                        exact: true,
+                        component: lazy(() => import('@src/pages/User/Register')) // 懒加载 路由组件
                     },
                     // 子菜单路由
                     {
@@ -67,8 +77,7 @@ const routes = [
                         breadcrumbName: '',
                         children: [
                             ...breadcrumbRoutes,
-                            { path: '/', exact: true, redirect: '/home', breadcrumbName: 'home' },
-                            { path: '*', exact: true, redirect: '/404', breadcrumbName: '404' }
+                            { path: '/', exact: true, redirect: '/home', breadcrumbName: 'home' }
                         ]
                     }
                 ]

@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useLocation, useHistory, Redirect } from 'react-router-dom';
+import { useLocation, useHistory, Redirect, Link } from 'react-router-dom';
 import { Form, Input, Button, message, Spin } from 'antd';
 import { observer } from 'mobx-react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useRequest } from '@umijs/hooks';
 import { appStores } from '@store/index';
 import * as api from '@services/index';
-import './index.scss';
+import './Login.scss';
 import { useForm } from 'antd/lib/form/util';
 const layout = {
     labelCol: { span: 4 },
@@ -16,7 +16,8 @@ const tailLayout = {
     wrapperCol: { offset: 4, span: 20 }
 };
 const defaultCaptchaUrl = () => `./servlet/captchaCode?d=${new Date().getTime()}`;
-const LoginPage = (props) => {
+
+const LoginPage: React.FC = (props) => {
     const [captchaUrl, setCaptchaUrl] = useState(defaultCaptchaUrl());
     const [captchaid, setCaptchaId] = useState('');
     const history = useHistory();
@@ -28,7 +29,6 @@ const LoginPage = (props) => {
         manual: true,
         onSuccess: (result, params) => {
             message.success('登陆成功');
-            // getUserInfo();
             globalStore.setLoginState(true);
             history.push('./');
         },
@@ -54,7 +54,6 @@ const LoginPage = (props) => {
                             img.src = window.URL.createObjectURL(blob);
                         }
                         // 赋值 captchaid
-                        // captchaid = xmlhttp.getResponseHeader('captchaid') || '';
                         // setSate会导致重渲染， 组件卸载 时可判断 不进行 setState；不然会循环，内存溢出
                         !ignore && setCaptchaId(xmlhttp.getResponseHeader('captchaid') || '');
                     }
@@ -74,12 +73,11 @@ const LoginPage = (props) => {
     // 登录提交
     const onFinish = (values: any) => {
         doLogin.run({ ...values, captchaid });
-        // console.log(doLogin);
     };
     const [form] = useForm();
-    const onFinishFailed = ({ values, errorFields, outOfDate }) => {
-        form.scrollToField(errorFields[0].name);
-        console.log('Failed:', errorFields);
+    const onFinishFailed = (errorInfo: any) => {
+        form.scrollToField(errorInfo.errorFields[0].name);
+        console.log('Failed:', errorInfo.errorFields);
     };
     useEffect(() => {
         console.log('login effect');
@@ -89,20 +87,16 @@ const LoginPage = (props) => {
             ignore = true;
         };
     }, []);
-    // console.log(globalStore.userInfo?.userName);
     // 有用户信息跳转到首页
     if (globalStore.loginState && globalStore.userInfo) {
         return <Redirect to={useLocation()?.state?.from || './'} />;
     }
-    // if (_userInfo.loading) {
-    //     return <LoadingPage />;
-    // }
     return (
         <Spin spinning={doLogin.loading}>
             <div className="login-wrap">
                 <Form
                     {...layout}
-                    name="basic"
+                    name="login"
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -152,6 +146,9 @@ const LoginPage = (props) => {
                         </Button>
                     </Form.Item>
                 </Form>
+                <div className="navToRegister">
+                    <Link to="/register">免费注册</Link>
+                </div>
             </div>
         </Spin>
     );

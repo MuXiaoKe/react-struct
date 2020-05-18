@@ -3,7 +3,7 @@ import { observable, action } from 'mobx';
 interface Iglobal {
     [propName: string]: any;
 }
-interface UserInfo {
+interface IUserInfo {
     userName?: string;
     authCodes?: any[];
     acconutId?: string;
@@ -24,7 +24,7 @@ export default class GlobalStore implements Iglobal {
 
     @observable public loginState = false; // 登录状态 默认没有登录
 
-    @observable public userInfo: UserInfo | null = null;
+    @observable public userInfo: IUserInfo | null = null;
 
     @action
     public toggleCollapsed = () => {
@@ -43,7 +43,7 @@ export default class GlobalStore implements Iglobal {
         }
     }
     @action
-    public setUserInfo = (info) => {
+    public setUserInfo = (info: IUserInfo) => {
         this.userInfo = info;
     };
     @action

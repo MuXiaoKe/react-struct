@@ -8,7 +8,7 @@ import { message } from 'antd';
 import LoadingPage from '@src/components/LoadingPage';
 import { reaction } from 'mobx';
 
-const SecurityLayout = ({ children }) => {
+const SecurityLayout: React.FC = ({ children }) => {
     let hasUserInfo = true;
     let match = useRouteMatch('/login');
     // 获取用户信息

@@ -1,5 +1,5 @@
 import React from 'react';
 
-const BlankLayout = ({ children }) => <div>{children}</div>;
+const BlankLayout: React.FC = ({ children }) => <div>{children}</div>;
 
 export default BlankLayout;

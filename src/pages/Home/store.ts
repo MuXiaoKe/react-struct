@@ -9,7 +9,7 @@ class HomeStore {
     public loading = false;
 
     @action
-    public setTitle = (title) => {
+    public setTitle = (title: string) => {
         this.pageTitle = title;
     };
 }

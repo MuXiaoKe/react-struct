@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
 import { appStores } from '@src/store';
-
+import { IRoute, TRoutes } from '@src/router/config';
 import { RadarChartOutlined } from '@ant-design/icons';
 
 import './style.scss';
@@ -11,8 +11,8 @@ import '@assets/fonts/iconfont.css';
 
 const renderMenuItem = (target: any) => {
     return target
-        .filter((item) => item.path && item.name)
-        .map((subMenu) => {
+        .filter((item: IRoute) => item.path && item.name)
+        .map((subMenu: IRoute) => {
             if (subMenu.children && !!subMenu.children.find((child) => child.path && child.name)) {
                 return (
                     <Menu.SubMenu
@@ -41,24 +41,29 @@ const renderMenuItem = (target: any) => {
             );
         });
 };
-
-const SiderMenu = ({ routes }) => {
+interface ISiderMenu {
+    routes: TRoutes;
+    // children?: React.ReactNode;
+}
+const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
     const { globalStore } = appStores();
     const { pathname } = useLocation();
     // console.log(pathname);
-    const [openKeys, setOpenKeys] = useState([]);
+    const [openKeys, setOpenKeys] = useState<string[]>([]);
 
     useEffect(() => {
         const list = pathname.split('/').splice(1);
-        setOpenKeys(list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`));
+        setOpenKeys(
+            list.map((item: string, index: number) => `/${list.slice(0, index + 1).join('/')}`)
+        );
     }, [pathname]);
 
     const getSelectedKeys = useMemo(() => {
         const list = pathname.split('/').splice(1);
-        return list.map((item, index) => `/${list.slice(0, index + 1).join('/')}`);
+        return list.map((item: string, index: number) => `/${list.slice(0, index + 1).join('/')}`);
     }, [pathname]);
 
-    const onOpenChange = (keys) => {
+    const onOpenChange = (keys: string[]) => {
         setOpenKeys(keys);
     };
 

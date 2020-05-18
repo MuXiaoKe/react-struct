@@ -18,7 +18,7 @@ export function getArr(len: number) {
 }
 export const isDev = process.env.NODE_ENV === 'development'; // 开发 or 生产
 // 非空判断
-export function isEmpty(obj) {
+export function isEmpty(obj: any) {
     return obj === null || obj === 'undefined' || obj === '' || obj === undefined;
 }
 /*

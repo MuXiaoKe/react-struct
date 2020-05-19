@@ -16,6 +16,7 @@ export interface IRoute {
 }
 export type TRoutes = IRoute[];
 // import { BASE_URL } from '../constants/index';
+// 主要配置路由，面包屑路由
 export const breadcrumbRoutes = [
     {
         path: '/home',

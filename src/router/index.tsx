@@ -70,8 +70,8 @@ const buildRouter = (): TRoutes => {
     const hasRedirect = (obj: IRoute): boolean => {
         return obj.hasOwnProperty('needRedirect') && obj.needRedirect === true;
     };
-    // 没有authcode 或者 不等于-1
-    // const hasAauth = (obj): boolean => {
+    // 没有authCode 或者 不等于-1C
+    // const hasAuth = (obj): boolean => {
     //     return !obj.hasOwnProperty('authCode') || authCodes.indexOf(String(obj.authCode)) !== -1;
     // };
     // 遍历路由列表
@@ -95,7 +95,7 @@ const buildRouter = (): TRoutes => {
                 pushArray(router.children);
             }
             // 有权限访问的地址
-            // if (hasAauth(router)) {
+            // if (hasAuth(router)) {
             //     newRouter.push(router);
             // }
         });

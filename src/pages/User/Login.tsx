@@ -63,13 +63,6 @@ const LoginPage: React.FC = (props) => {
         },
         [captchaUrl]
     );
-    // 获取用户信息
-    // const getUserInfo = (cache = true) => {
-    //     const { userInfo } = globalStore;
-    //     if (!cache || !userInfo) {
-    //         _userInfo.run({});
-    //     }
-    // };
     // 登录提交
     const onFinish = (values: any) => {
         doLogin.run({ ...values, captchaid });

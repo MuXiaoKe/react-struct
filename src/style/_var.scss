@@ -1,0 +1,93 @@
+// Background color for scroll
+$scroll-background: #ccc;
+// -------- padding --------
+$p-base: 15px;
+$p-xs: $p-base - 10px;
+$p-sm: $p-base - 5px;
+$p-md: $p-base + 5px;
+$p-lg: $p-base + 10px;
+$p-xl: $p-base + 15px;
+
+// -------- margin --------
+$m-base: 15px;
+$m-xs: $m-base - 10px;
+$m-sm: $m-base - 5px;
+$m-md: $m-base + 5px;
+$m-lg: $m-base + 10px;
+$m-xl: $m-base + 15px;
+
+// -------- box & border --------
+$border-radius-base: 4px;
+$border-radius-sm: 2px;
+
+// Border color
+$border-none: none;
+$border-color-base: #ececec;
+$border-width-base: 1px;
+$border-width-lg: 5px;
+$border-style-base: solid;
+
+// ---------img---------
+$base-url: '@assets/img/';
+
+// 媒体查询
+$screen-sm-min: 992px;
+$screen-md-min: 1200px;
+$screen-lg-min: 1600px;
+
+// 阴影
+$head-box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+
+// advancedsearch 表格背景色
+$ad-search-bg: #f9f9f9;
+
+// -------- Font --------
+$font-size-sm: 12px;
+$font-size-base: $font-size-sm+2;
+$font-size-lg: $font-size-sm+4px;
+$font-size-xl: $font-size-sm+6px;
+
+/* 小屏幕（平板，大于等于 992px） */
+@media (min-width: $screen-sm-min) {
+	.font-size-12 {
+		font-size: $font-size-sm;
+	}
+
+	.font-size-14 {
+		font-size: $font-size-base;
+	}
+
+	.font-size-16 {
+		font-size: $font-size-lg;
+	}
+}
+
+/* 中等屏幕（桌面显示器，大于等于 1200px） */
+@media (min-width: $screen-md-min) {
+	.font-size-12 {
+		font-size: $font-size-sm;
+	}
+
+	.font-size-14 {
+		font-size: $font-size-base;
+	}
+
+	.font-size-16 {
+		font-size: $font-size-lg;
+	}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1600px） */
+@media (min-width: $screen-lg-min) {
+	.font-size-12 {
+		font-size: $font-size-base;
+	}
+
+	.font-size-14 {
+		font-size: $font-size-lg;
+	}
+
+	.font-size-16 {
+		font-size: $font-size-xl;
+	}
+}

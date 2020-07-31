@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // const postcssPresetEnv = require("postcss-preset-env");
 
 const srcDir = path.join(__dirname, '../src');
-const devMode = process.env.NODE_ENV !== 'production';
 
 const APP_ENV = process.env.NODE_ENV;
 console.log(APP_ENV);
@@ -40,7 +39,6 @@ module.exports = {
             // "@babel/polyfill", // core-js v3 已经不需要这个
             path.join(__dirname, '../src/index.tsx')
         ],
-        vendor: ['react', 'react-router-dom', 'react-dom']
     },
     /* 输出到dist文件夹，输出文件名字为bundle.js */
     output: {
@@ -60,6 +58,8 @@ module.exports = {
             },
             {
                 test: /\.tsx?$/,
+                include: [resolve('src')],
+                exclude: /node_modules/,
                 loader: 'ts-loader'
             },
             {
@@ -99,6 +99,7 @@ module.exports = {
                         options: {
                             limit: 8192,
                             name: assetsPath('img/[name].[hash:7].[ext]')
+                            // esModule: false
                         }
                     }
                 ]
@@ -139,7 +140,8 @@ module.exports = {
             '@pages': `${srcDir}/pages`,
             '@services': `${srcDir}/services`,
             '@store': `${srcDir}/store`,
-            '@utils': `${srcDir}/utils`
+            '@utils': `${srcDir}/utils`,
+            '@styles': `${srcDir}/style`
         }
     }
 };

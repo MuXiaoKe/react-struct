@@ -1,8 +1,9 @@
+/* eslint-disable */
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const baseConfig = require("./webpack.base.config");
+const baseConfig = require('./webpack.base.config');
 module.exports = merge(baseConfig, {
-    mode: "development",
+    mode: 'development',
     devServer: {
         // compress: true,  // gzip压缩
         host: '0.0.0.0', // 允许ip访问
@@ -10,13 +11,15 @@ module.exports = merge(baseConfig, {
         port: 8000, // 端口
         proxy: {
             '*': {
-                // target: 'http://172.16.3.46:3000',
-                target: 'http://172.16.4.112:30008/', // 公司服务
+                // target: 'http://172.16.2.121:8080/', // 陶海清
+                // target: 'http://172.16.1.212:8080/', // 郑晨
+                target: 'http://172.16.4.118:31008/', // 公司服务
+                // target: 'http://172.16.2.138:8080/', // 王金龙
                 secure: false,
                 changeOrigin: true
             }
         }
     },
 
-    devtool: "eval-source-map",
+    devtool: 'eval-source-map'
 });

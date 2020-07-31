@@ -1,0 +1,20 @@
+.textareaForm-wrap {
+	position: relative;
+
+	.form-textarea textarea {
+		padding-bottom: 30px;
+		resize: none;
+	}
+
+	.count-number {
+		position: absolute;
+		bottom: 30px;
+		left: 330px;
+		// right: 10px;
+		.cur-number{
+			display: inline-block;
+			width: 25px;
+			text-align: right;
+		}
+	}
+}

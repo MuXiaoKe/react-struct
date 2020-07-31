@@ -7,14 +7,19 @@ import { Link, useLocation } from 'react-router-dom';
 function itemRender(route: any, params: any, routes: any[], paths: string[]) {
     const last = routes.indexOf(route) === routes.length - 1;
     // to={'/' + paths[0]} 这里的/ 是为了路径改变为#/{paths[0]}
-    return last ? <span>{route.name}</span> : <Link to={'/' + paths[0]}>{route.name}</Link>;
+    // return last ? <span>{route.name}</span> : <Link to={'/' + paths[0]}>{route.name}</Link>;
+    return last ? (
+        <span>{route.name}</span>
+    ) : (
+        <Link to={'/' + paths[routes.indexOf(route)]}>{route.name}</Link>
+    );
 }
 function getRoutes(path: string): any[] {
     const url = path?.replace('#', '');
     const newRouter: object[] = [];
     const hasIndex = (obj: IRoute): boolean => {
         const curPath = obj.path.split('/:')[0]; // /: 可能是为了防止参数进来
-        console.log(url, curPath);
+        // console.log(url, curPath);
         return url.includes(curPath); // TODO incluedes会有bug，如果url有部分字段和path相同会返回true
     };
     const pushArray = (list: TRoutes) => {

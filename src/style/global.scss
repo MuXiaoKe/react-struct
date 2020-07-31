@@ -1,0 +1,172 @@
+li{
+	list-style: none;
+}
+// -------- Font --------
+$font-size-base: 12px;
+$font-size-m: $font-size-base + 2px;
+$font-size-l: $font-size-base + 4px;
+$font-size-xl: $font-size-base + 6px;
+$font-size-xxl: $font-size-base + 8px;
+$font-size-xxxl: $font-size-base + 10px;
+
+// 登录注册页样式 -响应
+@media (min-width: 1280px) {
+	.login-wrap .login-box .login-submit,
+	.resgister-wrap .resgister-box .login-register {
+		font-size: $font-size-m;
+	}
+
+	.login-wrap h1,
+	.resgister-wrap h1 {
+		font-size: $font-size-xxl;
+	}
+
+	.login-wrap .login-input,
+	.resgister-wrap .login-input {
+		font-size: $font-size-m;
+	}
+
+	.login-wrap .pj-title {
+		font-size: 32px;
+	}
+
+	.login-wrap .pj-explain {
+		font-size: 16px;
+	}
+	// 按钮
+	.big-button {
+		font-size: 16px !important;
+	}
+}
+// 登录注册页样式 -响应
+@media (min-width: 1600px) {
+	.login-wrap .login-box .login-submit,
+	.resgister-wrap .resgister-box .login-register {
+		font-size: $font-size-xxl;
+	}
+
+	.login-wrap h1,
+	.resgister-wrap h1 {
+		font-size: 36px;
+	}
+
+	.login-wrap .login-input,
+	.resgister-wrap .login-input {
+		font-size: $font-size-l;
+	}
+
+	.login-wrap .pj-title {
+		font-size: 50px;
+	}
+
+	.login-wrap .pj-explain {
+		font-size: 24px;
+	}
+}
+
+body {
+	overflow: hidden;
+}
+
+textarea {
+	resize: none;
+}
+
+.modal-center {
+	margin: 0 auto;
+	text-align: center;
+}
+// 按钮
+.big-button {
+	width: 400px;
+	height: 5.9vh;
+	min-height: 21px;
+	margin-bottom: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+	background-image: linear-gradient(270deg, #41d2e4 0%, #0089f3 100%);
+	border-radius: 4px;
+}
+
+._modal-wrap {
+	.tips-img {
+		margin: 20px auto;
+	}
+
+	.tips-text {
+		margin-bottom: 20px;
+		font-size: 20px;
+
+		span {
+			margin-right: 10px;
+		}
+	}
+}
+
+// 常规间距
+.mb10 {
+	margin-bottom: 10px !important;
+}
+
+.mb15 {
+	margin-bottom: 15px !important;
+}
+
+.mb20 {
+	margin-bottom: 20px !important;
+}
+
+.mt10 {
+	margin-top: 10px !important;
+}
+
+.mt20 {
+	margin-top: 20px !important;
+}
+
+.ml10 {
+	margin-left: 10px !important;
+}
+
+.mr10 {
+	margin-right: 10px !important;
+}
+
+.pb10 {
+	padding-bottom: 10px !important;
+}
+
+.pt10 {
+	padding-top: 10px !important;
+}
+
+.pl10 {
+	padding-left: 10px !important;
+}
+
+.pr10 {
+	padding-right: 10px !important;
+}
+
+// 长度设置
+.w400 {
+	width: 400px !important;
+}
+
+.alert {
+	padding: 6px 12px;
+	margin-bottom: 6px;
+	line-height: 18px;
+	border-radius: 0;
+}
+
+.text-danger {
+	color: #f00 !important;
+}
+
+.content-wrap-h5 {
+	font-size: 16px;
+	font-weight: 700;
+}

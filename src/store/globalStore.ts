@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-// import request from '@/services/request';
+
 interface Iglobal {
     [propName: string]: any;
 }
@@ -18,13 +18,14 @@ export default class GlobalStore implements Iglobal {
 
     @observable public loading = false;
 
-    @observable public appTitle = '管理平台';
+    @observable public appTitle = 'Pandora';
 
     @observable public collapsed = false; // 菜单收起展开
 
     @observable public loginState = false; // 登录状态 默认没有登录
 
     @observable public userInfo: IUserInfo | null = null;
+    @observable public allAuthList: any[] = []; // 权限表
 
     @action
     public toggleCollapsed = () => {
@@ -50,29 +51,4 @@ export default class GlobalStore implements Iglobal {
     public setLoginState = (state: boolean) => {
         this.loginState = state;
     };
-
-    // @action
-    // getUserInfo = async (cache: boolean = true): Promise<UserInfo> => {
-    //     if (!cache || !this.userInfo) {
-    //         try {
-    //             runInAction(() => {
-    //                 this.loading = true;
-    //             });
-    //             const res = await this.api.getUserInfo({});
-    //             if (!res) {
-    //                 this.refresh(); // 更新验证码
-    //             }
-
-    //             runInAction(() => {
-    //                 this.userInfo = res;
-    //             });
-    //         } catch {
-    //             runInAction(() => {
-    //                 // 用于解决无线跳转的问题
-    //                 this.userInfo = null;
-    //             });
-    //         }
-    //     }
-    //     return this.userInfo;
-    // };
 }

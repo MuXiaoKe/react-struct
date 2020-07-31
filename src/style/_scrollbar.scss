@@ -1,0 +1,85 @@
+@import './_var.scss';
+
+$scrollbar-width: 10px;
+$scrollbar-height: 10px;
+$scrollbar-thumb-height: 50px;
+// :global{
+// 滚动条样式
+.scrollbar {
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+
+	&::-webkit-scrollbar {
+		position: absolute;
+		width: $scrollbar-width;
+		height: $scrollbar-height;
+		margin-left: 0 - $scrollbar-width;
+	}
+
+	/* &::-webkit-scrollbar-track {
+        !* border-radius: $scrollbar-width/2;*!
+        } */
+
+	&::-webkit-scrollbar-thumb {
+		height: $scrollbar-thumb-height;
+		background-color: $scroll-background;
+		background-clip: content-box;
+		border-color: transparent;
+		border-style: $border-style-base;
+		border-width: $border-width-base $border-width-base+1px;
+		border-radius: $scrollbar-width/2;
+	}
+}
+
+// 横线滚动条样式
+.scrollbar-x {
+	@extend .scrollbar;
+
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+// 纵向滚动条样式
+.scrollbar-y {
+	@extend .scrollbar;
+
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.scrollbar-x-y {
+	@extend .scrollbar;
+
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
+[class='ant-table-body'] {
+	@extend .scrollbar;
+}
+
+
+/*
+    * 级联滚动条样式
+    **/
+[class~='ant-cascader-menu'] {
+	@extend .scrollbar-y;
+}
+
+/*
+    * Select滚动条样式
+    **/
+[class~='ant-select-dropdown-menu'] {
+	@extend .scrollbar-y;
+}
+
+/**
+    * 卡片的滚动条
+    **/
+[class~='ant-card-body'] {
+	@extend .scrollbar-y;
+}
+
+[class~='main-layout-content'] {
+	@extend .scrollbar-x-y;
+}
+// }

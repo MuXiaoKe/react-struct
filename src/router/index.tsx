@@ -7,9 +7,7 @@ import LoadingPage from '@src/components/LoadingPage';
 import routes, { IRoute, TRoutes } from './config';
 
 import NoMatch from '@src/pages/Exception/404';
-// import { appStores } from '@store/index';
-// const { globalStore } = appStores();
-// const { userInfo } = globalStore;
+import { appStores } from '@store/index';
 
 const renderRoutes = (routes: any[]) => {
     if (!Array.isArray(routes)) {
@@ -60,20 +58,25 @@ const renderRoutes = (routes: any[]) => {
 };
 // 路由的格式化
 const buildRouter = (): TRoutes => {
-    // let { authCodes } = userInfo;
-    // authCodes = authCodes.slice() || [];
+    const { globalStore } = appStores();
+    const { userInfo } = globalStore;
+    let authCodes: any[] = [];
+    if (!!userInfo && !!userInfo.authCodes && Array.isArray(userInfo.authCodes)) {
+        authCodes = userInfo?.authCodes?.slice();
+    }
     const _routes = _.cloneDeep(routes);
-    // const newRouter: object[] = [];
-    // const hasChild = (obj: IRoute): boolean => {
-    //     return obj.hasOwnProperty('children') && obj?.children?.length > 0;
-    // };
+    const newRouter: object[] = [];
+    const hasChild = (obj: IRoute): boolean => {
+        const _children = (Reflect.has(obj, 'children') ? obj?.children : []) as any[];
+        return obj.hasOwnProperty('children') && _children.length > 0;
+    };
     const hasRedirect = (obj: IRoute): boolean => {
         return obj.hasOwnProperty('needRedirect') && obj.needRedirect === true;
     };
     // 没有authCode 或者 不等于-1C
-    // const hasAuth = (obj): boolean => {
-    //     return !obj.hasOwnProperty('authCode') || authCodes.indexOf(String(obj.authCode)) !== -1;
-    // };
+    const hasAuth = (obj: any): boolean => {
+        return !obj.hasOwnProperty('authCode') || authCodes.indexOf(String(obj.authCode)) !== -1;
+    };
     // 遍历路由列表
     const pushArray = (list: TRoutes) => {
         list.forEach((item) => {
@@ -95,9 +98,9 @@ const buildRouter = (): TRoutes => {
                 pushArray(router.children);
             }
             // 有权限访问的地址
-            // if (hasAuth(router)) {
-            //     newRouter.push(router);
-            // }
+            if (hasAuth(router)) {
+                newRouter.push(router);
+            }
         });
     };
     pushArray(_routes);
@@ -105,7 +108,7 @@ const buildRouter = (): TRoutes => {
 };
 const AppRouter = () => {
     const _routes = buildRouter();
-    console.log(_routes);
+    console.log('route', _routes);
     return <Router>{renderRoutes(_routes)}</Router>;
 };
 

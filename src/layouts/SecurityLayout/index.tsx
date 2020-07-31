@@ -1,29 +1,38 @@
-import React, { useEffect } from 'react';
-import { stringify } from 'querystring';
+import React, { useState, useEffect } from 'react';
 import { appStores } from '@store/index';
 import { Redirect, useRouteMatch } from 'react-router-dom';
-import { useRequest } from '@umijs/hooks';
+import { useRequest } from 'ahooks';
 import * as api from '@services/index';
-import { message } from 'antd';
+// import { message } from 'antd';
 import LoadingPage from '@src/components/LoadingPage';
 import { reaction } from 'mobx';
 
 const SecurityLayout: React.FC = ({ children }) => {
-    let hasUserInfo = true;
-    let match = useRouteMatch('/login');
+    // let hasUserInfo = true;
+    // 用户信息状态
+    const [userStatus, setuserStatus] = useState(true);
+
+    let loginMatch = useRouteMatch('/login');
+    let regMatch = useRouteMatch('/register');
     // 获取用户信息
     const _userInfo = useRequest(api.getUserInfo, {
         manual: true,
         onSuccess: (result, params) => {
-            message.success('获取用户信息成功');
             console.log(result);
-            hasUserInfo = true;
-            globalStore.setUserInfo(result);
+            if (result) {
+                setuserStatus(true);
+                globalStore.setUserInfo(result);
+                globalStore.setLoginState(true);
+            } else {
+                setuserStatus(false);
+            }
         },
         onError: (error, params) => {
+            console.log(error);
             // 用于解决无线跳转的问题
             globalStore.setUserInfo(null);
-            hasUserInfo = false;
+            globalStore.setLoginState(false);
+            setuserStatus(false);
         }
     });
 
@@ -50,14 +59,14 @@ const SecurityLayout: React.FC = ({ children }) => {
         );
     }, []);
 
-    const queryString = stringify({
-        redirect: window.location.href
-    });
+    // const queryString = stringify({
+    //     redirect: window.location.href
+    // });
 
-    // console.log(children, queryString, globalStore.userInfo);
+    // console.log(!userStatus, !globalStore.userInfo, !loginMatch, !regMatch);
     // 没有返回用户信息则代表没有登录态，跳转到login页
-    if (!hasUserInfo && !globalStore.userInfo && !match) {
-        return <Redirect to={`/login?${queryString}`} />;
+    if (!userStatus && !globalStore.userInfo && !loginMatch && !regMatch) {
+        return <Redirect to="/login" />; // {`/login?${queryString}`}
     }
     if (_userInfo.loading) {
         return <LoadingPage />;

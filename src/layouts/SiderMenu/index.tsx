@@ -3,42 +3,70 @@ import { Link, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
 import { appStores } from '@src/store';
+// eslint-disable-next-line no-unused-vars
 import { IRoute, TRoutes } from '@src/router/config';
-import { RadarChartOutlined } from '@ant-design/icons';
+import logoDo from '@assets/image/logo-do.png';
+import logo2 from '@assets/image/logo2.png';
+
+interface IRouteX extends IRoute {
+    code?: string;
+}
 
 import './style.scss';
 import '@assets/fonts/iconfont.css';
-
-const renderMenuItem = (target: any) => {
+// import _logo from '@assets/image/logo-do.png';
+const renderMenuItem = (target: any, authcode: string[], collapsed: boolean) => {
     return target
         .filter((item: IRoute) => item.path && item.name)
-        .map((subMenu: IRoute) => {
-            if (subMenu.children && !!subMenu.children.find((child) => child.path && child.name)) {
+        .map((subMenu: IRouteX) => {
+            const hasAuth = authcode.find((ele) => ele === String(subMenu?.code));
+            if (hasAuth) {
+                if (
+                    subMenu.children &&
+                    !!subMenu.children.find((child) => child.path && child.name) &&
+                    !subMenu.hideChild
+                ) {
+                    return (
+                        <Menu.SubMenu
+                            key={subMenu.path}
+                            title={
+                                <div>
+                                    {/* {subMenu.icon ? React.createElement(subMenu.icon) : null} */}
+                                    {subMenu.icon ? (
+                                        <i
+                                            className={`iconfont ${subMenu.icon}`}
+                                            title={subMenu.name}
+                                        />
+                                    ) : null}
+                                    {!collapsed && <span className="ml10">{subMenu.name}</span>}
+                                </div>
+                            }
+                        >
+                            {renderMenuItem(subMenu.children, authcode, collapsed)}
+                        </Menu.SubMenu>
+                    );
+                }
+
                 return (
-                    <Menu.SubMenu
-                        key={subMenu.path}
-                        title={
-                            <div>
-                                {/* {subMenu.icon ? React.createElement(subMenu.icon) : null} */}
-                                {subMenu.icon ? <i className={`iconfont ${subMenu.icon}`} /> : null}
-                                <span>{subMenu.name}</span>
-                            </div>
-                        }
-                    >
-                        {renderMenuItem(subMenu.children)}
-                    </Menu.SubMenu>
+                    <Menu.Item key={subMenu.path}>
+                        <Link to={subMenu.path}>
+                            <span>
+                                {subMenu.icon ? (
+                                    <i
+                                        className={`iconfont ${subMenu.icon}`}
+                                        title={subMenu.name}
+                                    />
+                                ) : null}
+                                {collapsed && subMenu.isIndex ? null : (
+                                    <span className="ml10">{subMenu.name}</span>
+                                )}
+                            </span>
+                        </Link>
+                    </Menu.Item>
                 );
             }
-            return (
-                <Menu.Item key={subMenu.path}>
-                    <Link to={subMenu.path}>
-                        <span>
-                            {subMenu.icon ? <i className={`iconfont ${subMenu.icon}`} /> : null}
-                            <span>{subMenu.name}</span>
-                        </span>
-                    </Link>
-                </Menu.Item>
-            );
+
+            return null;
         });
 };
 interface ISiderMenu {
@@ -48,8 +76,14 @@ interface ISiderMenu {
 const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
     const { globalStore } = appStores();
     const { pathname } = useLocation();
-    // console.log(pathname);
     const [openKeys, setOpenKeys] = useState<string[]>([]);
+
+    const { userInfo, collapsed } = globalStore;
+
+    let authCodes: string[] = [];
+    if (!!userInfo && !!userInfo.authCodes && Array.isArray(userInfo.authCodes)) {
+        authCodes = userInfo?.authCodes?.slice();
+    }
 
     useEffect(() => {
         const list = pathname.split('/').splice(1);
@@ -63,10 +97,16 @@ const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
         return list.map((item: string, index: number) => `/${list.slice(0, index + 1).join('/')}`);
     }, [pathname]);
 
-    const onOpenChange = (keys: string[]) => {
+    const onOpenChange = (keys: any) => {
+        console.log(keys);
         setOpenKeys(keys);
     };
-
+    const logoStyle = { height: '5vh', transform: 'scale(0.6)' };
+    const logoImg = !globalStore.collapsed ? (
+        <img src={logoDo} alt="logo" style={logoStyle} />
+    ) : (
+        <img src={logo2} alt="logo" style={logoStyle} />
+    );
     return (
         <Layout.Sider
             trigger={null}
@@ -74,14 +114,9 @@ const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
             collapsed={globalStore.collapsed}
             className="main-left-slider"
         >
-            <Link to="/">
-                <Row align="middle" className="main-logo">
-                    <RadarChartOutlined />
-                    {!globalStore.collapsed && (
-                        <span className="app-name">{globalStore.appTitle}</span>
-                    )}
-                </Row>
-            </Link>
+            <Row align="middle" className="main-logo">
+                {logoImg}
+            </Row>
             <Menu
                 mode="inline"
                 theme="light"
@@ -91,7 +126,7 @@ const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
                 onOpenChange={onOpenChange}
                 selectedKeys={getSelectedKeys}
             >
-                {renderMenuItem(routes)}
+                {authCodes.length > 0 && renderMenuItem(routes, authCodes, collapsed)}
             </Menu>
         </Layout.Sider>
     );

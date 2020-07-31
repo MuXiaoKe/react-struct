@@ -1,65 +1,53 @@
 .main-left-slider {
-  box-shadow: 0 2px 6px 4px rgba(26, 37, 51, 0.31);
+	/* box-shadow: 0 2px 6px 4px rgba(26, 37, 51, 0.31); */
 
-  .main-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    height: 64px;
-    color: #fff;
-    font-size: 18px;
-    border-bottom: 1px solid rgba(118, 141, 152, 0.2);
-    .app-name {
-      margin-left: 12px;
-      vertical-align: text-bottom;
-      font-size: 20px;
-      font-weight: 400;
-      text-overflow: clip;
-      white-space: nowrap;
-      background-image: -webkit-linear-gradient(bottom, #13e367, #fff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-  }
+	.main-logo {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: center;
+		height: 64px;
+		font-size: 18px;
+		color: #fff;
+		background: #fff;
+	}
 
-  .main-menu {
-    height: calc(100% - 64px);
-    overflow: auto;
-  }
+	.main-menu {
+		height: calc(100% - 64px);
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
 
-  .ant-menu-submenu-title,
-  .ant-menu-item {
-    z-index: 0;
-  }
+	.ant-menu-submenu-title::before,
+	.ant-menu-item::before {
+		position: absolute;
+		right: 0;
+		left: 0;
+		z-index: -1;
+		display: block;
+		width: 0;
+		height: 100%;
+		content: '';
+		background: rgba(24, 144, 255, 0.5);
+		box-shadow: 0 0 175px 0 rgba(24, 144, 255, 1);
+		transition: all 0.6s;
+	}
 
-  .ant-menu-submenu-title::before,
-  .ant-menu-item::before {
-    content: "";
-    width: 0;
-    height: 100%;
-    display: block;
-    background: rgba(24, 144, 255, 0.5);
-    box-shadow: 0 0 175px 0 rgba(24, 144, 255, 1);
-    z-index: -1;
-    position: absolute;
-    left: 0;
-    right: 0;
-    transition: all 0.6s;
-  }
+	.ant-menu-submenu-title,
+	.ant-menu-item {
+		z-index: 0;
+		&:hover {
+			color: #fff;
 
-  .ant-menu-submenu-title,
-  .ant-menu-item {
-    &:hover {
-      color: #fff;
-      &::before {
-        width: 100%;
-      }
-    }
-    > a {
-      &:hover {
-        color: #fff;
-      }
-    }
-  }
+			&::before {
+				width: 100%;
+			}
+		}
+
+		> a {
+			&:hover {
+				color: #fff;
+			}
+		}
+	}
 }

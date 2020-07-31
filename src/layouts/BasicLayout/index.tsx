@@ -42,7 +42,9 @@ const BasicLayout: FC<{ route: any; children: React.ReactNode }> = ({ route, chi
             <Layout className="main-layout-right">
                 <MainHeader />
                 <Layout.Content className="main-layout-content">
-                    <ZBreadcrumb />
+                    <div className="mb15">
+                        <ZBreadcrumb />
+                    </div>
                     <div className="mian-container">{children}</div>
                 </Layout.Content>
             </Layout>

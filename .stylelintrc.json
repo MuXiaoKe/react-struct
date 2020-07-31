@@ -1,0 +1,16 @@
+{
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-scss",
+        "stylelint-config-recess-order",
+        "stylelint-config-prettier"
+    ],
+    "rules": {
+        "indentation": "tab",
+        "number-leading-zero": null,
+		"at-rule-no-unknown": null,
+		"font-family-no-missing-generic-family-keyword": null,
+		"no-empty-source": null
+
+    }
+}

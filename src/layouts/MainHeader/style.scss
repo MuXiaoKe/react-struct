@@ -1,38 +1,77 @@
+@import '../../style/midea.scss';
+
 .main-header {
-  background: #fff;
-  padding: 0;
-  z-index: 100;
-  box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
-  .trigger {
-    font-size: 18px;
-    line-height: 64px;
-    padding: 0 16px;
-    cursor: pointer;
-    transition: color 0.3s;
+	z-index: 100;
+	padding: 0;
+	background: #fff;
+	box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
 
-    &:hover {
-      color: #1890ff;
-    }
-  }
+	.trigger {
+		@extend .ge-18px;
 
-  .user-info {
-    cursor: pointer;
-    padding: 0 10px;
-    &:hover {
-      color: #1890ff;
-      background: rgba(0, 0, 0, 0.045);
-    }
-    .user-img {
-      vertical-align: middle;
-      height: 32px;
-      width: 32px;
-      border-radius: 32px;
-      border: 1px solid rgb(221, 221, 221);
-      background-size: cover;
-      display: inline-block;
-    }
-    .user-name {
-      margin-left: 10px;
-    }
-  }
+		padding: 0 16px;
+		line-height: 64px;
+		cursor: pointer;
+		transition: color 0.3s;
+
+		&:hover {
+			color: #1890ff;
+		}
+	}
+}
+
+.text-right {
+	text-align: right;
+}
+
+.user-info {
+	padding: 0 10px;
+	cursor: pointer;
+
+	.user-img {
+		display: inline-block;
+		width: 32px;
+		height: 32px;
+		vertical-align: middle;
+		background-size: cover;
+		border: 1px solid rgb(221, 221, 221);
+		border-radius: 32px;
+	}
+
+	.user-name {
+		margin-left: 10px;
+	}
+}
+
+.user-info-card-logo {
+	height: 35px;
+	margin-top: 5px;
+}
+
+.personal-menu {
+	@extend .ge-14px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.personal-menu-divider {
+	margin-right: 15px;
+	margin-left: 15px;
+	border-left: 1px solid rgb(222, 222, 222);
+}
+
+.sign-out {
+	@extend .ge-14px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 36px;
+	color: rgb(255, 106, 0);
 }

@@ -1,68 +1,76 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import '../../services/config';
-import Store from './store';
-import { appStores } from '@src/store';
-import { Table } from 'antd';
-// import useSWR from 'swr'; // , { mutate }
+import { Row, Col, Card, Space, message } from 'antd';
+import './style/style.scss';
+import PieChart from './components/PieChart';
+import { handleData } from './handleData';
+import * as api from '@services/index';
+import { useRequest } from 'ahooks';
 
-export default observer(function IndexPage() {
-    // useContext 订阅mobx数据
-    const { pageTitle, setTitle } = useContext(Store);
+const IndexPage = () => {
+    // const screenRatio = document.body.clientWidth / 1920;
+    const screenRatio = 1;
+    // 请求数据
+    const productsData = useRequest(() => api.queryOverviewProduct({}), {
+        onError: (err: any) => message.error(`查询错误, ${err.msg}`)
+    });
 
-    const { globalStore } = appStores();
+    const devicesData = useRequest(() => api.queryOverviewDevice({}), {
+        onError: (err: any) => message.error(`查询错误, ${err.msg}`)
+    });
 
-    const dataSource = [
-        {
-            key: '1',
-            name: '胡彦斌',
-            age: 32,
-            address: '西湖区湖底公园1号'
-        },
-        {
-            key: '2',
-            name: '胡彦祖',
-            age: 42,
-            address: '西湖区湖底公园1号'
-        }
-    ];
+    const headStyle = {
+        fontWeight: 700
+    };
+    const largeStyle = { flex: 1, width: '67.5%' };
 
-    const columns = [
-        {
-            title: '姓名',
-            dataIndex: 'name',
-            key: 'name'
-        },
-        {
-            title: '年龄',
-            dataIndex: 'age',
-            key: 'age'
-        },
-        {
-            title: '住址',
-            dataIndex: 'address',
-            key: 'address'
-        }
-    ];
+    const dataBodyStyle = {
+        height: '92%',
+        display: 'flex',
+        padding: 0
+    };
 
-    // const { data: list, error } = useSWR('api/getList');
-    // if (error) return <div>failed to load</div>;
-    // if (!list) return <div>loading...</div>;
+    const groupColStyle = {
+        borderRight: '1px solid #f0f0f0'
+    };
+
     return (
-        <div>
-            <div>{pageTitle}</div>
-            <div>{globalStore?.userInfo?.loginName || '-'}</div>
-            <button
-                onClick={() => {
-                    setTitle('zzzzz');
-                }}
-            >
-                click
-            </button>
-            {/* {list.map((item: { _id: number; content: string }) => (
-                <span key={item._id}>{item.content}</span>
-            ))} */}
-            <Table dataSource={dataSource} columns={columns} />
+        <div className="page-overview">
+            <Row className="ge-row ge-second-row" style={{ marginTop: `${screenRatio * 24}px` }}>
+                <Card
+                    headStyle={headStyle}
+                    size="small"
+                    title="分类数据"
+                    style={{ ...largeStyle, height: 'inherit' }}
+                    bodyStyle={dataBodyStyle}
+                    loading={productsData.loading && devicesData.loading}
+                >
+                    <Col span="8" style={groupColStyle}>
+                        <PieChart
+                            total={productsData?.data?.productCount || 0}
+                            detail={productsData?.data?.product || []}
+                            title="产品"
+                        />
+                    </Col>
+                    <Col span="8" style={groupColStyle}>
+                        <PieChart
+                            total={devicesData?.data?.deviceCount || 0}
+                            detail={devicesData?.data?.device || []}
+                            title="设备"
+                        />
+                    </Col>
+                    <Col span="8">
+                        <PieChart
+                            total={devicesData?.data?.deviceCount || 0}
+                            detail={handleData(devicesData?.data?.deviceState || [])}
+                            title="设备状态"
+                        />
+                    </Col>
+                </Card>
+            </Row>
         </div>
     );
-});
+};
+
+export default observer(IndexPage);

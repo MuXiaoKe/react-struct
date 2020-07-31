@@ -27,8 +27,8 @@ instance.interceptors.request.use(
             ...config.params
         };
         // 添加token
-        config.headers['Access-Token'] = sessionStorage.getItem('access_token') || '';
-        config.headers['Content-Type'] = 'text/plain;charset=UTF-8';
+        // config.headers['Access-Token'] = sessionStorage.getItem('access_token') || '';
+        config.headers['Content-Type'] = 'application/json;charset=UTF-8'; // text/plain
         // 异步模式
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
         return config;
@@ -42,7 +42,7 @@ instance.interceptors.response.use(
             showAuthError = true;
             setTimeout(() => {
                 showAuthError = false;
-                location.href = '#/login';
+                location.href = '#/login?status=70000';
             }, 300);
             return Promise.resolve(null);
         }
@@ -53,12 +53,12 @@ instance.interceptors.response.use(
         //     });
         // }
         // 设置token数据
-        const token = response.headers['access-token'];
-        if (token) {
-            sessionStorage.setItem('access_token', token);
-        } else {
-            sessionStorage.setItem('access_token', '');
-        }
+        // const token = response.headers['access-token'];
+        // if (token) {
+        //     sessionStorage.setItem('access_token', token);
+        // } else {
+        //     sessionStorage.setItem('access_token', '');
+        // }
         // 设置返回数据
         let rdata: {
             msg?: string | null;

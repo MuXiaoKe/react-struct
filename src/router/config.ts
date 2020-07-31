@@ -1,8 +1,11 @@
 import { lazy } from 'react';
-
+// 基本页面
 import BasicLayout from '@src/layouts/BasicLayout';
 import BlankLayout from '@src/layouts/BlankLayout';
 import SecurityLayout from '@src/layouts/SecurityLayout';
+// 相关模块路由
+import accountRoute from './routes/account';
+
 export interface IRoute {
     path: string;
     name?: string;
@@ -13,43 +16,27 @@ export interface IRoute {
     redirect?: string;
     exact?: boolean;
     children?: TRoutes;
+    hideChild?: boolean; // 子菜单是否需要显示
+    isIndex?: boolean; // 是否是首页
+    // code?: string;
 }
 export type TRoutes = IRoute[];
 // import { BASE_URL } from '../constants/index';
+import { ActionBaseCode } from '../constants/auth';
 // 主要配置路由，面包屑路由
 export const breadcrumbRoutes = [
     {
         path: '/home',
-        name: 'home主页',
-        breadcrumbName: '首页',
+        name: '概览',
+        breadcrumbName: '概览',
         icon: 'iconshouye',
-        component: lazy(() => import('@src/pages/Home/index'))
+        code: ActionBaseCode.HomeBase,
+        isIndex: true,
+        component: lazy(() => import('@src/pages/Home/Index'))
     },
-    {
-        path: '/table',
-        name: '测试页111',
-        breadcrumbName: '测试页',
-        icon: 'iconxitongguanli',
-        component: lazy(() => import('@src/pages/Table/index'))
-    },
-    {
-        path: '/decive',
-        name: 'deciveManage',
-        breadcrumbName: '设备运维',
-        icon: 'iconxitongguanli',
-        needRedirect: true,
-        children: [
-            {
-                path: '/decive/product',
-                name: 'product',
-                breadcrumbName: '产品',
-                icon: 'iconxitongguanli',
-                component: lazy(() => import('@src/pages/DeciveManage/Product'))
-            }
-        ]
-    }
+    accountRoute
 ];
-const routes = [
+const routes: TRoutes = [
     {
         path: '/',
         component: BlankLayout, // 空白页布局

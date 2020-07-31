@@ -4,7 +4,7 @@ import BasicLayout from '@src/layouts/BasicLayout';
 import BlankLayout from '@src/layouts/BlankLayout';
 import SecurityLayout from '@src/layouts/SecurityLayout';
 // 相关模块路由
-import accountRoute from './routes/account';
+// import accountRoute from './routes/account';
 
 export interface IRoute {
     path: string;
@@ -33,8 +33,8 @@ export const breadcrumbRoutes = [
         code: ActionBaseCode.HomeBase,
         isIndex: true,
         component: lazy(() => import('@src/pages/Home/Index'))
-    },
-    accountRoute
+    }
+    // accountRoute
 ];
 const routes: TRoutes = [
     {

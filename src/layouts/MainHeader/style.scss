@@ -1,4 +1,3 @@
-@import '../../style/midea.scss';
 
 .main-header {
 	z-index: 100;
@@ -7,8 +6,7 @@
 	box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
 
 	.trigger {
-		@extend .ge-18px;
-
+		font-size: 18px;
 		padding: 0 16px;
 		line-height: 64px;
 		cursor: pointer;
@@ -49,8 +47,7 @@
 }
 
 .personal-menu {
-	@extend .ge-14px;
-
+	font-size: 14px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -66,8 +63,7 @@
 }
 
 .sign-out {
-	@extend .ge-14px;
-
+	font-size: 14px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

@@ -8,8 +8,6 @@ import './style.scss';
 import { useRequest } from 'ahooks';
 import * as api from '@services/index';
 
-import defaultHandsome from '@src/assets/image/default_handsome.jpg';
-
 const MainHeader: React.SFC = () => {
     // const { state, dispatch } = React.useContext(CollapsedContext);
     const { globalStore } = appStores();
@@ -33,7 +31,7 @@ const MainHeader: React.SFC = () => {
     const menu = (
         <Menu>
             <div className="user-info user-info-card-logo">
-                <img src={defaultHandsome} className="user-img" />
+                {/* <img src={defaultHandsome} className="user-img" /> */}
                 <span className="user-name">{userInfo?.accountName}</span>
             </div>
             <div className="personal-menu">
@@ -78,7 +76,7 @@ const MainHeader: React.SFC = () => {
                 <Col span={4}>
                     <Dropdown overlay={menu} trigger={['click', 'hover']} placement="bottomCenter">
                         <div className="user-info text-right">
-                            <img src={defaultHandsome} className="user-img" />
+                            {/* <img src={defaultHandsome} className="user-img" /> */}
                         </div>
                     </Dropdown>
                 </Col>

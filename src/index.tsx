@@ -15,6 +15,9 @@ import AppRouter from './router';
 import 'mobx-react-lite/batchingForReactDom';
 // ahooks 得全局配置
 import { UseRequestProvider } from 'ahooks';
+
+import { IntlProvider } from 'react-intl';
+import zh_CN from '@assets/locale/zh_CN';
 const App = () => (
     <UseRequestProvider
         value={{
@@ -26,7 +29,9 @@ const App = () => (
         }}
     >
         <ConfigProvider locale={zhCN}>
-            <AppRouter />
+            <IntlProvider locale="zh" messages={zh_CN}>
+                <AppRouter />
+            </IntlProvider>
         </ConfigProvider>
     </UseRequestProvider>
 );

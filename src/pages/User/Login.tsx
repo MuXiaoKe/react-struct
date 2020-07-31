@@ -7,11 +7,12 @@ import { useRequest } from 'ahooks';
 import { appStores } from '@store/index';
 import * as api from '@services/index';
 import './style/Login.scss';
-
+import { useIntl } from 'react-intl';
 import CommonHeader from './components/CommonHeader';
 const defaultCaptchaUrl = () => `./servlet/captchaCode?d=${new Date().getTime()}`;
 
 const LoginPage: React.FC = (props) => {
+    const { formatMessage: f } = useIntl();
     const history = useHistory();
     const { globalStore } = appStores();
     const [form] = Form.useForm();
@@ -84,7 +85,7 @@ const LoginPage: React.FC = (props) => {
                     <p className="pj-explain">汇聚全球连接及服务资源，为万物智能互联赋能</p>
                 </div>
                 <div className="login-box">
-                    <h1>账号登录</h1>
+                    <h1>{f({ id: 'loginTitle' })}</h1>
                     <Form
                         name="login"
                         initialValues={{ remember: true }}

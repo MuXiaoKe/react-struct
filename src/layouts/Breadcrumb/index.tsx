@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../services/config';
 import { Breadcrumb } from 'antd';
 import { breadcrumbRoutes, IRoute, TRoutes } from '../../router/config';
 import { Link, useLocation } from 'react-router-dom';

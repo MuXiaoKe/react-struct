@@ -30,10 +30,11 @@ module.exports = {
         'prefer-promise-reject-errors': 'off', // Promise 的 reject 中必须传入 Error 对象，而不是字面量
         'jsx-no-useless-fragment': 'off',
         'no-loss-of-precision': 'off',
-        complexity: ['error', 35], // 函数得最大复杂数
+        complexity: 'off', // 函数得最大复杂数
         '@typescript-eslint/consistent-type-definitions': ['off'], // 用type或者interface定义对象
         'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
-        'react-hooks/exhaustive-deps': 'warn' // Checks effect dependencies
+        'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
+        'max-depth': ['error', 6]
     },
     plugins: ['prettier', 'react-hooks']
 };

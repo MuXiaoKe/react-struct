@@ -33,18 +33,18 @@ import './style.scss';
 
 const BasicLayout: FC<{ route: any; children: React.ReactNode }> = ({ route, children }) => {
     // const [state, dispatch] = React.useReducer(menuReducer, menuInitState);
+    // console.log('BasicLayouts');
     return (
         // <CollapsedContext.Provider value={{ state, dispatch }}>
         <Layout className="main-layout">
-            {/* <SiderMenu routes={route.children} /> */}
             <SiderMenu routes={breadcrumbRoutes} />
             {/* 左侧菜单导航 */}
             <Layout className="main-layout-right">
                 <MainHeader />
+                <div className="breadcrumb-wrap">
+                    <ZBreadcrumb />
+                </div>
                 <Layout.Content className="main-layout-content">
-                    <div className="mb15">
-                        <ZBreadcrumb />
-                    </div>
                     <div className="mian-container">{children}</div>
                 </Layout.Content>
             </Layout>

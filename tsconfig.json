@@ -47,7 +47,7 @@
         // "noEmit": true
     },
     "include": [ // 添加包含的文件和排除的文件，增加性能
-        "src/**/*"
+        "src/**/*", "build/theme.js"
     ],
     "exclude": [
         "node_modules",

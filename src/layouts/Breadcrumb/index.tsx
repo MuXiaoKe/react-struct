@@ -7,6 +7,7 @@ function itemRender(route: any, params: any, routes: any[], paths: string[]) {
     const last = routes.indexOf(route) === routes.length - 1;
     // to={'/' + paths[0]} 这里的/ 是为了路径改变为#/{paths[0]}
     // return last ? <span>{route.name}</span> : <Link to={'/' + paths[0]}>{route.name}</Link>;
+    // console.log(routes, params);
     return last ? (
         <span>{route.name}</span>
     ) : (

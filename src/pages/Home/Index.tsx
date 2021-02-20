@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { observer } from 'mobx-react';
-import { Row, Col, Card, Space, message } from 'antd';
-import './style/style.scss';
-import PieChart from './components/PieChart';
+import { Row, Col, Card } from 'antd';
+import './style.scss';
 import * as api from '@services/index';
 import { useRequest } from 'ahooks';
+import { useIntl } from 'react-intl';
 
 const IndexPage = () => {
-    return <div className="page-overview" />;
+    const { formatMessage: f } = useIntl();
+    
+    return (
+        <div className="home-overview">
+            
+        </div>
+    );
 };
 
-export default observer(IndexPage);
+export default IndexPage;

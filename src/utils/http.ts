@@ -27,7 +27,7 @@ instance.interceptors.request.use(
             ...config.params
         };
         // 添加token
-        // config.headers['Access-Token'] = sessionStorage.getItem('access_token') || '';
+        config.headers['Authorization'] = sessionStorage.getItem('access_token') || '';
         config.headers['Content-Type'] = 'application/json;charset=UTF-8'; // text/plain
         // 异步模式
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -38,11 +38,19 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
     (response) => {
-        if (!showAuthError && response.data.errorCode === '70000') {
+        // console.log(response);
+        if (!showAuthError && Number(response.data.errorCode) === 20003) {
+            // console.log('超时');
+            // 超时
             showAuthError = true;
             setTimeout(() => {
                 showAuthError = false;
-                location.href = '#/login?status=70000';
+
+                sessionStorage.setItem('access_token', '');
+                sessionStorage.setItem('roleId', '');
+                sessionStorage.setItem('loginName', '');
+
+                location.href = '#/login?status=20003';
             }, 300);
             return Promise.resolve(null);
         }
@@ -80,15 +88,20 @@ instance.interceptors.response.use(
             };
             return Promise.reject(_err);
         }
+        // console.log(rdata);
         return Promise.resolve(resFormat(rdata));
     },
     (error) => {
+        if (error.response.status === 401) {
+            location.href = '#/login?status=20003';
+        }
         const _err = {
-            msg: error.message || '网络故障',
+            msg: error.response.data?.msg || error.response.data?.message || '网络故障',
             type: /^timeout of/.test(error.message)
                 ? HTTPERROR[HTTPERROR.TIMEOUTERROR]
                 : HTTPERROR[HTTPERROR.NETWORKERROR],
-            config: error.config
+            config: error.config,
+            response: error.response
         };
         return Promise.reject(_err);
     }

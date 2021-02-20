@@ -1,4 +1,3 @@
 import http from '../utils/http';
-/** 概览页：开始 */
+import { BASE_URL, SUB_URL } from '@src/constants/index';
 
-/** 概览页：结束 */

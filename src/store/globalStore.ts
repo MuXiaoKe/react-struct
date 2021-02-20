@@ -1,11 +1,11 @@
 import { observable, action } from 'mobx';
-
+import { RoleType } from '@src/constants/auth';
 interface Iglobal {
     [propName: string]: any;
 }
 interface IUserInfo {
     userName?: string;
-    authCodes?: any[];
+    authCodes?: any;
     acconutId?: string;
     loginName?: string;
     deptId?: string;
@@ -18,13 +18,16 @@ export default class GlobalStore implements Iglobal {
 
     @observable public loading = false;
 
-    @observable public appTitle = 'Pandora';
+    @observable public appTitle = 'Cmp';
 
     @observable public collapsed = false; // 菜单收起展开
 
     @observable public loginState = false; // 登录状态 默认没有登录
 
-    @observable public userInfo: IUserInfo | null = null;
+    @observable public userInfo: IUserInfo | null = {
+        userName: '',
+        authCodes: []
+    };
     @observable public allAuthList: any[] = []; // 权限表
 
     @action
@@ -38,7 +41,7 @@ export default class GlobalStore implements Iglobal {
         // Object.entries(data).forEach((item: [any, any]) => {
         //     this[item[0]] = item[1];
         // });
-        console.log(data);
+        // console.log(data);
         for (let [key, value] of Object.entries(data)) {
             this[key] = value;
         }

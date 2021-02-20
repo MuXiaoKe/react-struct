@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Row, Col } from 'antd';
-import './style/style.scss';
+import './style.scss';
 
 interface ColumnItem {
     title: string;

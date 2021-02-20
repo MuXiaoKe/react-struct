@@ -11,15 +11,25 @@ module.exports = merge(baseConfig, {
         port: 8000, // 端口
         proxy: {
             '*': {
-                // target: 'http://172.16.2.121:8080/', // 陶海清
-                // target: 'http://172.16.1.212:8080/', // 郑晨
-                target: 'http://172.16.4.118:31008/', // 公司服务
-                // target: 'http://172.16.2.138:8080/', // 王金龙
+                // target: 'http://172.16.4.42:20000/mock/5f3e48a6533fa705c171848f',  
+                // target: 'http://10.221.20.74:32000',  // 准正式服务器地址
+                target: 'http://172.16.4.244:32000/',  // 测试服务器地址
+                pathRewrite: {'^/api': ''},
                 secure: false,
                 changeOrigin: true
             }
         }
     },
-
+    plugins: [
+        // new HtmlWebpackPlugin({
+        //     filename: 'index.html',
+        //     template: path.join(__dirname, '../public/index.html'),
+        //     favicon: 'public/favicon.ico'
+        // }),
+        // 自动导入模块 在全局 代替用import
+        new webpack.ProvidePlugin({
+            Buffer: ["buffer", "Buffer"]
+        })
+    ],
     devtool: 'eval-source-map'
 });

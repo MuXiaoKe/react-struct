@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { Layout, Menu, Row } from 'antd';
 import { appStores } from '@src/store';
 // eslint-disable-next-line no-unused-vars
+import * as api from '@services/index';
 import { IRoute, TRoutes } from '@src/router/config';
 import logoDo from '@assets/image/logo-do.png';
 import logo2 from '@assets/image/logo2.png';
@@ -14,6 +15,7 @@ interface IRouteX extends IRoute {
 
 import './style.scss';
 import '@assets/fonts/iconfont.css';
+import { useRequest } from 'ahooks';
 // import _logo from '@assets/image/logo-do.png';
 const renderMenuItem = (target: any, authcode: string[], collapsed: boolean) => {
     return target
@@ -81,10 +83,10 @@ const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
     const { userInfo, collapsed } = globalStore;
 
     let authCodes: string[] = [];
-    if (!!userInfo && !!userInfo.authCodes && Array.isArray(userInfo.authCodes)) {
-        authCodes = userInfo?.authCodes?.slice();
-    }
-
+    // if (!!userInfo && !!userInfo.authCodes && Array.isArray(userInfo.authCodes)) {
+    //     authCodes = userInfo?.authCodes?.slice();
+    // }
+    authCodes = JSON.parse(sessionStorage.getItem('AUTHS_CODE') || '[]');
     useEffect(() => {
         const list = pathname.split('/').splice(1);
         setOpenKeys(
@@ -98,15 +100,35 @@ const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
     }, [pathname]);
 
     const onOpenChange = (keys: any) => {
-        console.log(keys);
         setOpenKeys(keys);
     };
-    const logoStyle = { height: '5vh', transform: 'scale(0.6)' };
-    const logoImg = !globalStore.collapsed ? (
-        <img src={logoDo} alt="logo" style={logoStyle} />
-    ) : (
-        <img src={logo2} alt="logo" style={logoStyle} />
-    );
+    const [logoImg, setlogoImg] = useState<any>();
+    const roleId = sessionStorage.getItem('roleId');
+    const channelCustId = sessionStorage.getItem('channelCustId');
+    const custId = sessionStorage.getItem('custId');
+    const _custId = Number(roleId) === 5000 ? custId : channelCustId;
+    const logo = useRequest(() => api.getLogoByCustId({ custId: _custId }), {
+        onSuccess: (resault: any) => {
+            if (
+                Object.keys(resault).length !== 0 &&
+                resault?.logo !== null &&
+                resault?.logo !== ''
+            ) {
+                setlogoImg(
+                    <img
+                        src={resault.logo}
+                        alt="logo"
+                        style={{
+                            marginRight: 10,
+                            marginLeft: 10,
+                            height: 30,
+                            width: 170
+                        }}
+                    />
+                );
+            }
+        }
+    });
     return (
         <Layout.Sider
             trigger={null}
@@ -115,7 +137,35 @@ const SiderMenu: React.FC<ISiderMenu> = ({ routes }) => {
             className="main-left-slider"
         >
             <Row align="middle" className="main-logo">
-                {logoImg}
+                {logo.loading === false ? (
+                    logoImg ? (
+                        !globalStore.collapsed ? (
+                            logoImg
+                        ) : null
+                    ) : !globalStore.collapsed ? (
+                        <img
+                            src={logoDo}
+                            alt="logo"
+                            style={{
+                                marginRight: 10,
+                                marginLeft: 10,
+                                height: 'auto',
+                                width: '85%'
+                            }}
+                        />
+                    ) : (
+                        <img
+                            src={logo2}
+                            alt="logo"
+                            style={{
+                                marginRight: 10,
+                                marginLeft: 10,
+                                height: 'auto',
+                                width: '40%'
+                            }}
+                        />
+                    )
+                ) : null}
             </Row>
             <Menu
                 mode="inline"

@@ -1,48 +1,20 @@
 /* eslint-disable no-unused-vars */
-export const BASE_URL = '/app';
+export const BASE_URL = '/api';
+export const SUB_URL = '/cmp/base/goods';
+// export const SUB_URL = '';
 
+import { intl } from '@assets/locale/intl';
+// const f_modeType00 = intl.formatMessage({
+//     id: 'billing.modeType.00',
+//     defaultMessage: '标准版'
+// });
+// const f_modeType0102 = intl.formatMessage({
+//     id: 'billing.modeType.0102',
+//     defaultMessage: '专业'
+// });
 interface ENUM {
     [key: string]: any;
 }
-
-export enum ID_TYPE {
-    PERSONAL = '个人',
-    TEAM = '团体'
-}
-
-export enum ID_TYPE_V {
-    PERSONAL = '0',
-    TEAM = '1'
-}
-
-/*
- * 用户状态
- * */
-export enum USER_STATUS {
-    disabled = '冻结',
-    enabled = '正常'
-}
-
-export enum USER_STATUS_V {
-    disabled = '1',
-    enabled = '0'
-}
-
-/**
- * 认证状态
- */
-export enum AUTH_LEVEL {
-    UN_AUTH = '未认证',
-    AUTH_PERSON = '个人认证',
-    AUTH_COMPANY = '企业认证'
-}
-
-export enum AUTH_LEVEL_V {
-    UN_AUTH = '0',
-    AUTH_PERSON = '1',
-    AUTH_COMPANY = '2'
-}
-
 /*
  * 流量单位
  * */
@@ -54,6 +26,18 @@ export enum FLOW_UNIT {
     PB = 'PB'
 }
 
+/*
+ * 日期格式类型
+ * */
+export enum FORMAT_TYPES {
+    MONTH = 'YYYY/MM',
+    DATE = 'YYYY/MM/DD',
+    HOUR = 'YYYY/MM/DD HH',
+    MINUTE = 'YYYY/MM/DD HH:mm',
+    SECOND = 'YYYY/MM/DD HH:mm:ss',
+    DATE_POINT = 'YYYY.MM.DD'
+}
+
 export enum FLOW_UNIT_V {
     KB = 0,
     MB = 1,
@@ -61,67 +45,134 @@ export enum FLOW_UNIT_V {
     TB = 3,
     PB = 4
 }
-
-export enum TRIGGER_TYPE {
-    DEVICE = '设备触发'
-    // FIXED_TIME = '定时触发'
-}
-
-export enum TRIGGER_TYPE_V {
-    DEVICE = '1'
-    // FIXED_TIME = '2'
-}
-
-export enum TRIGGER_WAY {
-    event = '事件触发',
-    element = '属性触发',
-    line = '上下线触发'
-}
-
-export enum TRIGGER_WAY_V {
-    event = '1',
-    element = '2',
-    line = '3'
-}
-
-export enum EXEC_CONDITION {
-    DEVICE = '设备状态',
-    TIME_RANGE = '时间范围'
-}
-
-export enum EXEC_CONDITION_V {
-    DEVICE = '1',
-    TIME_RANGE = '2'
-}
-
-export enum EXEC_ACTION {
-    DEVICE_OUTPUT = '设备输出',
-    RULE_OUTPUT = '规则输出'
-}
-
-export enum EXEC_ACTION_V {
-    DEVICE_OUTPUT = '1',
-    RULE_OUTPUT = '2'
-}
-
-// 一定要导出
-const values: ENUM = {
-    ID_TYPE,
-    ID_TYPE_V,
-    USER_STATUS,
-    USER_STATUS_V,
-    AUTH_LEVEL,
-    AUTH_LEVEL_V,
-    FLOW_UNIT,
-    FLOW_UNIT_V,
-    TRIGGER_TYPE,
-    TRIGGER_TYPE_V,
-    TRIGGER_WAY,
-    TRIGGER_WAY_V,
-    EXEC_CONDITION,
-    EXEC_CONDITION_V,
-    EXEC_ACTION,
-    EXEC_ACTION_V
+export const SEARCH_ITEM = {
+    labelCol: {
+        sm: { span: 8 },
+        md: { span: 8 },
+        lg: { span: 8 },
+        xl: { span: 8 },
+        xxl: { span: 6 }
+    },
+    wrapperCol: {
+        sm: { span: 16 },
+        md: { span: 16 },
+        lg: { span: 16 },
+        xl: { span: 16 },
+        xxl: { span: 18 }
+    }
+};
+export const DETAIL_ITEM = {
+    labelCol: {
+        sm: { span: 8 },
+        md: { span: 8 },
+        lg: { span: 8 },
+        xl: { span: 8 },
+        xxl: { span: 5 }
+    },
+    wrapperCol: {
+        sm: { span: 12 },
+        md: { span: 12 },
+        lg: { span: 12 },
+        xl: { span: 12 },
+        xxl: { span: 10 }
+    }
+};
+export const BIG_DETAIL_ITEM = {
+    labelCol: {
+        sm: { span: 5 },
+        md: { span: 5 },
+        lg: { span: 5 },
+        xl: { span: 5 },
+        xxl: { span: 5 }
+    },
+    wrapperCol: {
+        sm: { span: 16 },
+        md: { span: 16 },
+        lg: { span: 16 },
+        xl: { span: 16 },
+        xxl: { span: 16 }
+    }
+};
+export const MODAL_ITEM = {
+    labelCol: {
+        sm: { span: 8 },
+        md: { span: 8 },
+        lg: { span: 8 },
+        xl: { span: 7 },
+        xxl: { span: 6 }
+    },
+    wrapperCol: {
+        sm: { span: 16 },
+        md: { span: 16 },
+        lg: { span: 16 },
+        xl: { span: 17 },
+        xxl: { span: 18 }
+    }
+};
+export const MODAL_DOUBLE_ITEM = {
+    labelCol: {
+        sm: { span: 10 },
+        md: { span: 10 },
+        lg: { span: 10 },
+        xl: { span: 10 },
+        xxl: { span: 8 }
+    },
+    wrapperCol: {
+        sm: { span: 14 },
+        md: { span: 14 },
+        lg: { span: 14 },
+        xl: { span: 14 },
+        xxl: { span: 16 }
+    }
+};
+export const GOODS_TYPE: ENUM = {
+    '1': '预付',
+    '2': '月付',
+    '3': '补充包',
+    '10': '测试套餐'
+};
+export const TARIFF_TYPE: ENUM = {
+    '1': '预付单卡',
+    '2': '预付共享',
+    '0': '月付单卡',
+    '6': '月付共享',
+    '8': '事件包',
+    '9': '追加包',
+    '14': '增值服务包',
+    '10': '测试套餐'
+};
+/*
+ * 正则表单式类型
+ * */
+export const PATTERN = {
+    PHONE: /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/, // 匹配手机号码
+    PHONES: /^(1([38]\d|4[57]|5[0-35-9]|7[06-8])\d{8})(;(1([38]\d|4[57]|5[0-35-9]|7[06-8])\d{8})){0,4}$/, // 最多五个手机号
+    EMAIL: /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/, // 匹配邮箱
+    EMAILS: /^(([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6}))(;(([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6}))){0,4}$/, // 最多五个邮箱
+    IP: /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/, // IP地址
+    SPACE: /^[^\s]*$/ // 禁止输入空格
+};
+// 卡状态
+export const CARD_STATUS = {
+    '60': '开始',
+    '61': '测试',
+    '62': '待激活',
+    '63': '库存',
+    '64': '激活',
+    '65': '停用',
+    '66': '失效',
+    '67': '销户'
+};
+// 运营模式
+export const MODE_TYPE = {
+    '00': '标准版',
+    '01': '专业',
+    '02': '专业',
+    '0102': '专业',
+    '01,02': '专业',
+    '0607': '其他',
+    '06,07': '其他'
 };
 
-export default values;
+// const def = {};
+export default {};

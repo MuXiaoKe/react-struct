@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { useRequest } from 'ahooks';
 import { UserOutlined, LockOutlined, SafetyOutlined } from '@ant-design/icons';
 import * as api from '@services/index';
-import './style/Register.scss';
+import './style/register.scss';
 
 import CommonHeader from './components/CommonHeader';
 import iconRight from '@assets/image/icon4.png';
@@ -28,16 +28,15 @@ const Register: React.FC = () => {
     };
     // 登录提交
     const onFinish = (values: any) => {
-        console.log({ values });
         doRegister.run({ ...values });
     };
     const [form] = Form.useForm();
     const onFinishFailed = (errorInfo: any) => {
         form.scrollToField(errorInfo.errorFields[0].name);
-        console.log('Failed:', errorInfo.errorFields);
+        // console.log('Failed:', errorInfo.errorFields);
     };
     useEffect(() => {
-        console.log('login effect');
+        // console.log('login effect');
     }, []);
     // 确认密码认证
     const checkPassword = (rule: any, value: string) => {

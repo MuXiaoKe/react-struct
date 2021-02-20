@@ -1,62 +1,132 @@
-import React from 'react';
-import { Layout, Dropdown, Menu, Row, Col, Divider, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Layout, Dropdown, Menu, Row, Col, Divider, message, Space, Button } from 'antd';
 import { observer } from 'mobx-react';
 import { useHistory, Link } from 'react-router-dom';
-import { MenuUnfoldOutlined, MenuFoldOutlined, KeyOutlined } from '@ant-design/icons';
+import {
+    MenuUnfoldOutlined,
+    MenuFoldOutlined,
+    QuestionCircleOutlined,
+    BellOutlined,
+    UserOutlined
+} from '@ant-design/icons';
 import { appStores } from '@src/store';
-import './style.scss';
 import { useRequest } from 'ahooks';
 import * as api from '@services/index';
-
-const MainHeader: React.SFC = () => {
-    // const { state, dispatch } = React.useContext(CollapsedContext);
+import avatar from '@assets/image/avatar.png';
+import { useIntl } from 'react-intl';
+import UploadFileModal from './components/UploadLogoModal';
+import moment from 'moment';
+import './style.scss';
+const MainHeader: React.FC = () => {
+    const { formatMessage: f } = useIntl();
     const { globalStore } = appStores();
+    const RoleId = sessionStorage.getItem('roleId');
 
-    const userInfo = globalStore.userInfo; // 得到一个 proxy对象
+    // const userInfo = globalStore.userInfo; // 得到一个 proxy对象
     const history = useHistory();
     // 登出
-    const doLogin = useRequest(api.logout, {
+    const logout = useRequest(api.logout, {
         manual: true,
         onSuccess: (result, params) => {
-            globalStore.setUserInfo(null);
-            globalStore.setLoginState(false);
-            message.success('登出');
+            // globalStore.setUserInfo(null);
+            // globalStore.setLoginState(false);
+            sessionStorage.setItem('access_token', '');
+            sessionStorage.setItem('roleId', '');
+            sessionStorage.setItem('loginName', '');
+            // 清空权限码
+            sessionStorage.setItem('AUTHS_TYPE', '');
+            sessionStorage.setItem('AUTHS_CODE', '');
+            message.success(f({ id: 'user.login.logoutSuccess' }));
             history.push('/login');
-        },
-        onError: (error, params) => {}
+        }
     });
-
-    const accessKeyManage = () => {};
-
+    // 公告 getNewNotification
+    const getNewNotification = useRequest(api.getNewNotification, {
+        onSuccess: () => {
+            setTimeout(function() {
+                setScrollWidth(domref.current?.offsetWidth);
+            }, 200);
+        }
+    });
+    // 权限
+    const AUTHS_TYPE = JSON.parse(sessionStorage.getItem('AUTHS_TYPE') || '[]');
+    // 用户下拉菜单
     const menu = (
         <Menu>
-            <div className="user-info user-info-card-logo">
-                {/* <img src={defaultHandsome} className="user-img" /> */}
-                <span className="user-name">{userInfo?.accountName}</span>
-            </div>
-            <div className="personal-menu">
-                <Link to="/account/baseinfo">基本资料</Link>
-                <Divider type="vertical" className="personal-menu-divider" />
-                <Link to="#">实名认证</Link>
-                <Divider type="vertical" className="personal-menu-divider" />
-                <Link to="/account/scuritysetting">安全设置</Link>
-            </div>
-            <Menu.Divider />
-            <Menu.Item key="0" icon={<KeyOutlined />} onClick={accessKeyManage}>
-                <span className="ge-14px">AccessKey管理</span>
+            {/* <Menu.Item key="changePassword">
+                <div className="" onClick={() => logout.run({})}>
+                    {f({ id: 'common.changePassword' })}
+                </div>
             </Menu.Item>
+            <Menu.Divider /> */}
+            {sessionStorage.getItem('roleId') !== '5000' && (
+                <Menu.Item key="accountManage">
+                    <Link to="/home/account" className="lineheight-32">
+                        {f({ id: 'common.accountManage' })}
+                    </Link>
+                </Menu.Item>
+            )}
+            {sessionStorage.getItem('roleId') !== '5000' && (
+                <Menu.Item key="customerManage">
+                    <Link to="/home/customer" className="lineheight-32">
+                        {f({ id: 'common.customerManage' })}
+                    </Link>
+                </Menu.Item>
+            )}
+
+            {AUTHS_TYPE.logoSetting && (
+                <Menu.Item key="logoSetting" className="lineheight-32">
+                    <UploadFileModal />
+                </Menu.Item>
+            )}
             <Menu.Divider />
-            <Menu.Item key="1">
-                <div className="sign-out" onClick={() => doLogin.run({})}>
-                    退出登录
+            <Menu.Item key="sign-out">
+                <div
+                    className="sign-out"
+                    onClick={() =>
+                        logout.run({ token: sessionStorage.getItem('access_token') || '' })
+                    }
+                >
+                    {f({ id: 'user.login.logout' })}
                 </div>
             </Menu.Item>
         </Menu>
     );
+
+    // 下载用户指南
+    const downloadFile = () => {
+        if (RoleId === '1000' || RoleId === '2000') {
+            location.href = `${window.location.origin}/template/UserGuide-manager.docx`;
+        } else {
+            location.href = `${window.location.origin}/template/UserGuide-customer.docx`;
+        }
+    };
+    // 帮助下拉菜单
+    const docMenu = (
+        <Menu>
+            <Menu.Item key="apiManager">
+                <Link to="/home/doc/api-manager" className="lineheight-32">
+                    {f({ id: 'common.apiManager' })}
+                </Link>
+            </Menu.Item>
+            <Menu.Item key="userGuide">
+                <span onClick={downloadFile} className="lineheight-32">
+                    {f({ id: 'common.userGuide' })}
+                </span>
+            </Menu.Item>
+            <Menu.Item key="FAQ">
+                <Link to="/home/doc/faq" className="lineheight-32">
+                    {f({ id: 'common.FAQ' })}
+                </Link>
+            </Menu.Item>
+        </Menu>
+    );
+    const domref: any = React.createRef();
+    const [scrollWidth, setScrollWidth] = useState(0);
     return (
         <Layout.Header className="main-header">
             <Row style={{ paddingRight: 20 }}>
-                <Col style={{ flex: 1 }} span={20}>
+                <Col style={{ flex: 1 }} xl={2} xxl={1}>
                     {globalStore.collapsed ? (
                         <MenuUnfoldOutlined
                             className="menuTrigger"
@@ -73,12 +143,57 @@ const MainHeader: React.SFC = () => {
                         />
                     )}
                 </Col>
-                <Col span={4}>
-                    <Dropdown overlay={menu} trigger={['click', 'hover']} placement="bottomCenter">
-                        <div className="user-info text-right">
-                            {/* <img src={defaultHandsome} className="user-img" /> */}
-                        </div>
-                    </Dropdown>
+                <Col xl={10} xxl={11} className="overflow-hidden">
+                    {/* 公告截止日期需要大于当前日期 */}
+                    {getNewNotification?.data?.endDate ? (
+                        moment(getNewNotification?.data?.endDate).valueOf() >
+                        moment(new Date()).valueOf() ? (
+                            <div className="newNotification">
+                                <div
+                                    className={
+                                        scrollWidth > 600
+                                            ? 'animate notification-div'
+                                            : 'notification-div'
+                                    }
+                                    ref={domref}
+                                    style={{
+                                        animationDuration: scrollWidth
+                                            ? String(scrollWidth / 20) + 's'
+                                            : '20s'
+                                    }}
+                                    title={getNewNotification?.data?.content}
+                                >
+                                    {getNewNotification?.data?.content}
+                                </div>
+                            </div>
+                        ) : null
+                    ) : null}
+                </Col>
+                <Col xl={12} xxl={12} style={{ textAlign: 'right' }}>
+                    <Space size="large">
+                        <Dropdown
+                            overlay={docMenu}
+                            trigger={['click', 'hover']}
+                            placement="bottomCenter"
+                        >
+                            <div className="user-info text-right">
+                                <QuestionCircleOutlined style={{ color: '#4674D4' }} />
+                            </div>
+                        </Dropdown>
+                        <Link to="/card/downloadtask" title={f({ id: 'menu.downloadTask' })}>
+                            <BellOutlined />
+                        </Link>
+                        <Dropdown
+                            overlay={menu}
+                            trigger={['click', 'hover']}
+                            placement="bottomCenter"
+                        >
+                            <div className="user-info text-right">
+                                <img src={avatar} className="user-img" />
+                                <span className="pl10">{sessionStorage.getItem('loginName')}</span>
+                            </div>
+                        </Dropdown>
+                    </Space>
                 </Col>
             </Row>
         </Layout.Header>

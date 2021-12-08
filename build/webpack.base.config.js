@@ -1,32 +1,39 @@
 /* eslint-disable */
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const postcssPresetEnv = require("postcss-preset-env");
+// dayjs 切换momentjs 插件
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+// 进度条
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const theme = require('./theme');
-// __dirname 执行的js文件的绝对路径， ./ 返回你执行 node 命令的路径
 const srcDir = path.join(__dirname, '../src');
-// 环境变量
-const APP_ENV = process.env.NODE_ENV;
-const DEV_ENV = APP_ENV === 'development';
-const PRD_ENV = APP_ENV === 'production';
-// 静态资源访问域名（CDN）
-// const STATICDOMAIN = APP_ENV === 'production' ? '.' : ''; // 之前的环境是qa
-const STATICDOMAIN = '';
 
+const APP_ENV = process.env.NODE_ENV;
+console.log(APP_ENV, process.env.APP_ENV);
+// 静态资源访问域名（CDN）
+// 加个 './' 为相对目录，需要对静态资源地址目录做修改
+// const STATICDOMAIN = APP_ENV === 'production' ? '.' : ''; 
+const STATICDOMAIN = '';
+const isDev = APP_ENV === 'development';
 const config = {
     index: path.resolve(__dirname, './../index.html'),
     assetsRoot: path.resolve(__dirname, `./../dist/${APP_ENV}`),
-    assetsPublicPath: DEV_ENV ? '/' : `${STATICDOMAIN}/dist/${APP_ENV}/`,
-    // 静态资源目录
-    assetsSubDir: 'static',
+    assetsPublicPath: APP_ENV === 'development' ? '/' : `${STATICDOMAIN}/dist/${APP_ENV}/`,
+    assetsSubDirectory: 'static',
     // 正式环境接入sentry需要sourceMap
-    sourceMap: APP_ENV !== 'production',
-    extractCss: APP_ENV !== 'development'
+    sourceMap: APP_ENV === 'development',
+    extractCss: APP_ENV !== 'development',
+    // Run the build command with an extra argument to
+    // View the bundle analyzer report after build finishes:
+    // `npm run build --report`
+    // Set to `true` or `false` to always turn it on or off
+    bundleAnalyzerReport: process.env.npm_config_report
 };
-//  拼接路径 字符串
 const assetsPath = function(_path) {
-    // path.join 兼容写法
-    return path.posix.join(config.assetsSubDir, _path);
+    return path.posix.join(config.assetsSubDirectory, _path);
 };
 
 const resolve = function(dir) {
@@ -41,15 +48,13 @@ module.exports = {
         ]
     },
     /* 输出到dist文件夹，输出文件名字为bundle.js */
-    // v4 的 hash这里改为v5的 contenthash
     output: {
-        path: config.assetsRoot, // output 目录对应一个绝对路径。
-        // 此选项决定了每个输出 bundle 的名称
-        filename: DEV_ENV ? '[name].js' : assetsPath('js/[name].[contenthash].js'),
-        // 此选项决定了非初始 chunk 文件的名称
-        chunkFilename: DEV_ENV ? '[name].js' : assetsPath('js/[name].[id].[contenthash].js'),
-        // 对于按需加载或加载外部资源（如图片、文件等） 资源的路径会加上publicPath定义的前缀
-        publicPath: config.assetsPublicPath
+        path: config.assetsRoot,
+        filename: APP_ENV === 'development' ? '[name].js' : assetsPath('js/[name].[contenthash].js'),
+        chunkFilename:
+            APP_ENV === 'development' ? '[name].js' : assetsPath('js/[name].[id].[contenthash].js'),
+        publicPath: config.assetsPublicPath,
+        clean: true // 在生成文件之前清空 output 目录
     },
     /* cacheDirectory是用来缓存编译结果，下次编译加速 */
     module: {
@@ -63,7 +68,15 @@ module.exports = {
                 test: /\.tsx?$/,
                 include: [resolve('src')],
                 exclude: /node_modules/,
-                loader: 'ts-loader'
+                // loader: 'ts-loader'
+                use: [
+                    {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: isDev
+                        }
+                    }
+                ]
             },
             {
                 test: /\.css$/,
@@ -101,31 +114,16 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
-                // use: [
-                //     {
-                //         loader: 'url-loader',
-                //         options: {
-                //             limit: 8192,
-                //             name: assetsPath('img/[name].[contenthash].[ext]')
-                //             // esModule: false
-                //         }
-                //     }
-                // ]
                 type: 'asset',
                 generator: {
-                    filename : assetsPath('img/[hash][ext][query]')
+                    filename : assetsPath('img/[contenthash][ext][query]')
                 }
             },
             {
                 test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-                // loader: 'url-loader',
-                // options: {
-                //     limit: 10000,
-                //     name: assetsPath('fonts/[name].[contenthash].[ext]')
-                // }
                 type: 'asset',
                 generator: {
-                    filename : assetsPath('fonts/[hash][ext][query]')
+                    filename : assetsPath('fonts/[contenthash][ext][query]')
                 }
             }
         ]
@@ -135,8 +133,20 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.join(__dirname, '../public/index.html'),
-            favicon: 'public/favicon.ico'
-        })
+            inject: true, // body 底部插入script
+            favicon: 'public/favicon.ico',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+            },
+            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+            chunksSortMode: 'auto'
+        }),
+        new AntdDayjsWebpackPlugin(),
+        // 进度条
+        new ProgressBarPlugin()
+
     ],
     // 别名配置
     resolve: {
@@ -149,16 +159,20 @@ module.exports = {
             '@services': `${srcDir}/services`,
             '@store': `${srcDir}/store`,
             '@utils': `${srcDir}/utils`,
-            '@styles': `${srcDir}/style`
+            '@styles': `${srcDir}/style`,
+            'bn.js': path.resolve(process.cwd(), 'node_modules', 'bn.js')
         },
         //  v5 对crypto 没有polyfill 的兼容处理
         fallback: {
             crypto: require.resolve('crypto-browserify'),
             path: require.resolve('path-browserify'),
             url: require.resolve('url'),
-            buffer: require.resolve('buffer/'),
-            util: require.resolve('util/'),
-            stream: require.resolve('stream-browserify/')
+            buffer: require.resolve('buffer'),
+            util: require.resolve('util'),
+            stream: require.resolve('stream-browserify')
         }
+    },
+    cache: {
+        type: 'filesystem' // 使用文件缓存
     }
 };

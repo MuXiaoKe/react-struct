@@ -3,8 +3,9 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// 新版本的css代码压缩包
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const baseConfig = require('./webpack.base.config');
 
@@ -17,17 +18,37 @@ const prdConfig = merge(baseConfig, {
     mode: 'production',
     // 插件配置
     plugins: [
-        new CleanWebpackPlugin(), // 每次打包前清空
-        new MiniCssExtractPlugin({ // 提取css到新文件
-            filename: assetsPath("css/[name].[contenthash].css"),
-            chunkFilename: assetsPath("css/[id].[contenthash].css")
+        new MiniCssExtractPlugin({
+            // 压缩css
+            // filename: "[name].[contenthash].css",
+            // chunkFilename: "[id].[contenthash].css"
+            filename: assetsPath('css/[name].[contenthash].css'),
+            chunkFilename: assetsPath('css/[name].[id].[contenthash].css')
         }),
-        // 压缩
-        new OptimizeCssAssetsPlugin()
+        // new OptimizeCssAssetsPlugin()
+        new webpack.DefinePlugin({
+            'process.env.APP_ENV': JSON.stringify(process.env.APP_ENV)
+        })
     ],
     optimization: {
+        minimizer: [
+            // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+            `...`,
+            new CssMinimizerPlugin()
+        ],
         splitChunks: {
-            chunks: 'all'
+            chunks: 'all',
+            // 重复打包问题
+            cacheGroups: {
+                vendors: {
+                    //node_modules里的代码
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: 'all',
+                    // name: 'vendors', //chunks name 不能设置这个名字，不然会全部打包到这个文件里面
+                    priority: 10, //优先级
+                    enforce: true
+                }
+            }
         }
     }
 });

@@ -1,11 +1,11 @@
-# DMP
+# REACT 后台管理
 
-🚀 基于 webpack4 搭建的 React 中后台项目框架模板。🚀DMP
+🚀 基于 webpack5 搭建的 React 中后台项目框架模板。🚀DMP
 
 
 ## 说明
 
-本项目为 React 中后台项目框架模板，方便快速进行具体项目开发。包括 Webpack4.0 配置及打包优化、React 全家桶使用（React + React-router + Axios + Antd）、ESLint 等项目开发规范等。
+本项目为 React 中后台项目框架模板，方便快速进行具体项目开发。包括 Webpack5 配置及打包优化、React 全家桶使用（React + React-router + Axios + Antd）、ESLint 等项目开发规范等。
 
 <!-- 项目 Git 地址：[https://github.com/MuXiaoKe/react-struct](https://github.com/MuXiaoKe/react-struct)； -->
 
@@ -13,13 +13,13 @@
 
 涉及的技术栈均采用当前最新的版本和语法：
 
-- 使用 Webpack4.0 构建项目（不使用 create-react-app等脚手架）；
+- 使用 Webpack5 构建项目（不使用 create-react-app等脚手架）；
 - 使用 Babel7 配置转换 ES6、React 等语法；
-- React 版本 V16.12.0，全部采用函数化 Hooks 特性开发项目组件；
+- React 版本 V17，全部采用函数化 Hooks 特性开发项目组件；
 - 采用 React-router5 工具 配置项目路由；
 <!-- - 采用 Mobx5 + Hooks 实现项目数据状态管理； -->
 <!-- - 封装 Axios 库实现与后台 http 请求交互； -->
-- UI 库采用流行的 Ant-design4.0 组件库；
+- UI 库采用流行的 Ant-design4.16 组件库；
 - 完整项目实现及模块结构拆分；
 
 ### 目录结构
